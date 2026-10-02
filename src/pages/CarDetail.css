@@ -1,0 +1,12 @@
+/* Car Detail inherits from PropertyDetail.css but adds specific mobility adjustments */
+.car-detail .core-specs-strip {
+  padding: var(--space-4) 0;
+}
+
+.car-detail .spec-item {
+  min-width: 100px;
+}
+
+.booking-dialog .dialog-content {
+  padding-bottom: var(--space-2);
+}

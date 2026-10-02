@@ -1,0 +1,128 @@
+.add-property-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.add-property-header {
+  margin-bottom: var(--space-8);
+}
+
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.step-indicator::-webkit-scrollbar {
+  display: none;
+}
+
+.step-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--color-border-limestone);
+  transition: background-color var(--transition-micro);
+}
+
+.step-dot.active {
+  background-color: var(--color-primary-navy);
+}
+
+.step-dot.completed {
+  background-color: var(--color-success-forest);
+}
+
+.add-property-content {
+  background-color: var(--color-surface-white);
+  border: 1px solid var(--color-border-limestone);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  flex-grow: 1;
+}
+
+.step-title {
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border-limestone);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.form-full {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border-limestone);
+}
+
+/* Media Uploader */
+.media-uploader {
+  border: 2px dashed var(--color-border-limestone);
+  border-radius: var(--radius-lg);
+  padding: var(--space-12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--color-bg-sand);
+  cursor: pointer;
+  transition: all var(--transition-micro);
+}
+
+.media-uploader:hover {
+  border-color: var(--color-primary-navy);
+  background-color: var(--color-hover-subtle);
+}
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.media-thumbnail {
+  aspect-ratio: 1;
+  background-color: var(--color-bg-sand);
+  border-radius: var(--radius-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.media-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.save-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 13px;
+  color: var(--color-text-ash);
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .add-property-content {
+    padding: var(--space-4);
+  }
+}

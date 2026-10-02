@@ -25,7 +25,7 @@ interface ProviderTransaction {
   reference: string;
   propertyTitle: string;
   customerName: string;
-  type: 'sale' | 'rent';
+  type: TransactionType;
   grossAmount: number;
   currency: string;
   commissionRate: number;
@@ -48,12 +48,15 @@ interface ProviderProperty {
   lastUpdated: string;
 }
 
+import { calculateCommission as calcCommission } from '../utils/commission';
+import type { TransactionType } from '../utils/commission';
+
 interface ProviderState {
   properties: ProviderProperty[];
   leads: Lead[];
   requests: Request[];
   transactions: ProviderTransaction[];
-  calculateCommission: (gross: number, type: 'sale' | 'rent') => { rate: number, commission: number, net: number };
+  calculateCommission: (gross: number, type: TransactionType) => { rate: number, commission: number, net: number };
 }
 
 const ProviderContext = createContext<ProviderState | undefined>(undefined);
@@ -62,14 +65,9 @@ export function ProviderProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const isAgent = user?.providerRole === 'agent';
 
-  // Commission Business Rules
-  // Property sale: 10% Auremont commission.
-  // Rental transaction: 5% Auremont commission.
-  const calculateCommission = (gross: number, type: 'sale' | 'rent') => {
-    const rate = type === 'sale' ? 0.10 : 0.05;
-    const commission = gross * rate;
-    const net = gross - commission;
-    return { rate, commission, net };
+  // Commission Business Rules centralized
+  const calculateCommission = (gross: number, type: TransactionType) => {
+    return calcCommission(gross, type);
   };
 
   // Mock data based on role
@@ -82,19 +80,16 @@ export function ProviderProvider({ children }: { children: ReactNode }) {
     { id: 'rq_1', customerName: 'Sophie Laurent', propertyTitle: 'Milan Apartment', dates: 'Nov 1 - Nov 30', status: 'pending', message: 'Looking for a one-month stay while my home is renovated.' }
   ] : [];
 
-  const mockTransactions: ProviderTransaction[] = [
+  const rawMockTransactions = [
     {
       id: 'tx_prov_1',
       reference: 'TX-89A4B2',
       propertyTitle: 'Alfama Courtyard House',
       customerName: 'James Wilson',
-      type: 'rent',
+      type: 'rent' as TransactionType,
       grossAmount: 4800,
       currency: '€',
-      commissionRate: 0.05,
-      commissionAmount: 240,
-      netAmount: 4560,
-      status: 'completed',
+      status: 'completed' as const,
       date: 'Oct 10, 2023'
     },
     ...(isAgent ? [{
@@ -102,16 +97,23 @@ export function ProviderProvider({ children }: { children: ReactNode }) {
       reference: 'TX-11B3C9',
       propertyTitle: 'Madrid Apartment',
       customerName: 'Elena Rostova',
-      type: 'sale' as const,
+      type: 'sale' as TransactionType,
       grossAmount: 1250000,
       currency: '€',
-      commissionRate: 0.10,
-      commissionAmount: 125000,
-      netAmount: 1125000,
       status: 'pending' as const,
       date: 'Oct 15, 2023'
     }] : [])
   ];
+
+  const mockTransactions: ProviderTransaction[] = rawMockTransactions.map(tx => {
+    const { rate, commission, net } = calcCommission(tx.grossAmount, tx.type);
+    return {
+      ...tx,
+      commissionRate: rate,
+      commissionAmount: commission,
+      netAmount: net,
+    };
+  });
 
   const mockProviderProperties: ProviderProperty[] = [
     {

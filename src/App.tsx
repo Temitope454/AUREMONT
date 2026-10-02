@@ -23,6 +23,15 @@ import AddProperty from './pages/Provider/AddProperty';
 import ProviderEarnings from './pages/Provider/ProviderEarnings';
 import ProviderTransactions from './pages/Provider/ProviderTransactions';
 import ProviderOnboarding from './pages/Provider/ProviderOnboarding';
+import ProviderLeads from './pages/Provider/ProviderLeads';
+import ProviderRequests from './pages/Provider/ProviderRequests';
+import ProviderViewings from './pages/Provider/ProviderViewings';
+import ProviderMessages from './pages/Provider/ProviderMessages';
+import ProviderNotifications from './pages/Provider/ProviderNotifications';
+import ProviderProfile from './pages/Provider/ProviderProfile';
+import ProviderSettings from './pages/Provider/ProviderSettings';
+import ProviderVerification from './pages/Provider/ProviderVerification';
+import PropertyPreview from './pages/Provider/PropertyPreview';
 import { AuthProvider } from './context/AuthContext';
 import { ConsumerProvider } from './context/ConsumerContext';
 import './index.css';
@@ -70,15 +79,18 @@ function App() {
                   <Route path="properties" element={<PropertiesList />} />
                   <Route path="properties/new" element={<AddProperty />} />
                   <Route path="properties/:id/edit" element={<AddProperty />} />
-                  <Route path="leads" element={<Placeholder title="Leads" />} />
-                  <Route path="requests" element={<Placeholder title="Requests" />} />
-                  <Route path="viewings" element={<Placeholder title="Viewings" />} />
-                  <Route path="messages" element={<Placeholder title="Messages" />} />
+                  <Route path="properties/:id/preview" element={<PropertyPreview />} />
+                  <Route path="leads" element={<ProviderLeads />} />
+                  <Route path="requests" element={<ProviderRequests />} />
+                  <Route path="viewings" element={<ProviderViewings />} />
+                  <Route path="messages" element={<ProviderMessages />} />
                   <Route path="transactions" element={<ProviderTransactions />} />
                   <Route path="earnings" element={<ProviderEarnings />} />
                   <Route path="onboarding" element={<ProviderOnboarding />} />
-                  <Route path="profile" element={<Placeholder title="Profile" />} />
-                  <Route path="settings" element={<Placeholder title="Settings" />} />
+                  <Route path="verification" element={<ProviderVerification />} />
+                  <Route path="notifications" element={<ProviderNotifications />} />
+                  <Route path="profile" element={<ProviderProfile />} />
+                  <Route path="settings" element={<ProviderSettings />} />
                 </Route>
               </Routes>
             </main>

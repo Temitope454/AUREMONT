@@ -5,6 +5,7 @@ import { mockCars } from '../data/mockCars';
 import type { Vehicle } from '../data/mockCars';
 import { formatPrice } from '../data/mockProperties';
 import { useAuth } from '../context/AuthContext';
+import { useConsumerState } from '../context/ConsumerContext';
 import CarCard from '../components/CarCard';
 
 // Using PropertyDetail styles where sensible, plus specific overrides
@@ -16,6 +17,7 @@ export default function CarDetail() {
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthenticated } = useAuth();
+  const { addRecentlyViewed, toggleFavorite, isFavorite } = useConsumerState();
   
   const [car, setCar] = useState<Vehicle | null>(null);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
@@ -25,6 +27,19 @@ export default function CarDetail() {
   useEffect(() => {
     const found = mockCars.find(c => c.slug === slug);
     setCar(found || null);
+    if (found) {
+      addRecentlyViewed({
+        id: found.id,
+        type: 'car',
+        title: `${found.make} ${found.model}`,
+        subtitle: `${found.location} · ${found.powertrain}`,
+        price: found.price,
+        currency: found.currency,
+        pricingCadence: found.pricingCadence,
+        image: found.mainImage,
+        slug: found.slug,
+      });
+    }
     window.scrollTo(0, 0);
   }, [slug]);
 
@@ -75,9 +90,17 @@ export default function CarDetail() {
           <button className="icon-btn-labeled">
             <Share size={18} strokeWidth={1.5} /> Share
           </button>
-          <button className="icon-btn-labeled" onClick={() => {}}>
-            <Heart size={18} strokeWidth={1.5} className={car.favoriteState ? 'favorite-active' : ''} fill={car.favoriteState ? 'currentColor' : 'transparent'} /> 
-            {car.favoriteState ? 'Saved' : 'Save'}
+          <button 
+            className="icon-btn-labeled" 
+            onClick={() => toggleFavorite(car.id)}
+          >
+            <Heart 
+              size={18} 
+              strokeWidth={1.5} 
+              className={isFavorite(car.id) ? 'favorite-active' : ''} 
+              fill={isFavorite(car.id) ? 'currentColor' : 'transparent'} 
+            /> 
+            {isFavorite(car.id) ? 'Saved' : 'Save'}
           </button>
         </div>
       </div>

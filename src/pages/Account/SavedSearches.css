@@ -1,0 +1,201 @@
+.saved-searches-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.saved-search-card {
+  padding: var(--space-6);
+  background: var(--color-bg-ivory);
+  border: 1px solid var(--color-border-limestone);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: all 0.2s ease;
+}
+
+.saved-search-card:hover {
+  border-color: var(--color-primary-navy);
+  box-shadow: 0 4px 16px rgba(24, 36, 46, 0.05);
+}
+
+.saved-search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.saved-search-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-ink);
+}
+
+.saved-search-date {
+  font-size: 0.8rem;
+  color: var(--color-text-slate);
+}
+
+.match-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(169, 104, 79, 0.12);
+  color: var(--color-accent-terracotta);
+  border: 1px solid rgba(169, 104, 79, 0.3);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.saved-search-criteria-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.criteria-chip {
+  padding: 4px 10px;
+  background: var(--color-surface-white);
+  border: 1px solid var(--color-border-limestone);
+  border-radius: 6px;
+  font-size: 0.82rem;
+  color: var(--color-text-ink);
+}
+
+.saved-search-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-limestone);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.frequency-selector-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bell-icon {
+  color: var(--color-accent-terracotta);
+}
+
+.frequency-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--color-text-slate);
+}
+
+.frequency-select {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-limestone);
+  background: var(--color-surface-white);
+  font-size: 0.82rem;
+  color: var(--color-text-ink);
+  cursor: pointer;
+}
+
+.saved-search-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn-danger {
+  background: transparent;
+  border: 1px solid var(--color-border-limestone);
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: #C0392B;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn-danger:hover {
+  background: rgba(192, 57, 43, 0.1);
+  border-color: #C0392B;
+}
+
+/* Modal Styling */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(24, 36, 46, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.modal-dialog {
+  background: var(--color-surface-white);
+  border-radius: var(--radius-xl);
+  max-width: 580px;
+  width: 100%;
+  padding: var(--space-6);
+  border: 1px solid var(--color-border-limestone);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border-limestone);
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.form-grid-2 {
+  display: grid;
+  grid-templateColumns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--color-text-ink);
+}
+
+.form-group input, .form-group select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-limestone);
+  background: var(--color-bg-ivory);
+  font-size: 0.88rem;
+  font-family: inherit;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-limestone);
+}

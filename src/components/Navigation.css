@@ -341,3 +341,151 @@
   margin-top: var(--space-2);
 }
 
+/* Concierge Quick Trigger in Desktop Nav */
+.nav-concierge-quick-btn {
+  background: rgba(197, 168, 128, 0.1);
+  border: 1px solid rgba(197, 168, 128, 0.25);
+  border-radius: 50%;
+  transition: all var(--transition-micro);
+}
+
+.nav-concierge-quick-btn:hover {
+  background: rgba(197, 168, 128, 0.25);
+  border-color: #C5A880;
+  transform: scale(1.05);
+}
+
+/* Language Dropdown */
+.nav-lang-dropdown {
+  position: relative;
+}
+
+.nav-lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid var(--color-border-limestone);
+  border-radius: var(--radius-full);
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-slate);
+  cursor: pointer;
+  transition: all var(--transition-micro);
+}
+
+.nav-lang-btn:hover {
+  color: var(--color-text-ink);
+  border-color: var(--color-text-ink);
+}
+
+.nav-lang-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: var(--space-2);
+  background: var(--color-surface-white);
+  border: 1px solid var(--color-border-limestone);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 120px;
+  z-index: 100;
+}
+
+.nav-lang-item {
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: var(--color-text-ink);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-micro);
+}
+
+.nav-lang-item:hover, .nav-lang-item.active {
+  background: var(--color-bg-sand);
+  color: var(--color-accent-terracotta);
+  font-weight: 600;
+}
+
+/* Mobile Drawer Language Selector */
+.mobile-drawer-lang-selector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mobile-lang-pills {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.mobile-lang-pill {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-limestone);
+  background: var(--color-bg-ivory);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-slate);
+  cursor: pointer;
+  transition: all var(--transition-micro);
+}
+
+.mobile-lang-pill.active {
+  background: var(--color-primary-navy);
+  color: #FFF;
+  border-color: var(--color-primary-navy);
+  font-weight: 600;
+}
+
+/* Mobile Concierge Banner Button */
+.mobile-concierge-banner-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, #18242E 0%, #223240 100%);
+  border: 1px solid rgba(197, 168, 128, 0.4);
+  color: #F6F3EC;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(24, 36, 46, 0.2);
+}
+
+.mobile-concierge-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(197, 168, 128, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C5A880;
+  flex-shrink: 0;
+}
+
+.mobile-concierge-title {
+  font-family: var(--font-display, 'Instrument Serif', Georgia, serif);
+  font-size: 1rem;
+  color: #F6F3EC;
+}
+
+.mobile-concierge-sub {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #C5A880;
+}
+
+

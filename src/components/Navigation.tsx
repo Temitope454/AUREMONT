@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, User, Menu, X, LogOut, Settings, CreditCard, Heart, MessageSquare, Briefcase, PlusCircle, Shield } from 'lucide-react';
+import { Search, User, Menu, X, LogOut, Settings, CreditCard, Heart, MessageSquare, Briefcase, PlusCircle, Shield, Sparkles, Globe } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useI18n } from '../context/I18nContext';
+import type { Language } from '../context/I18nContext';
 import './Navigation.css';
 
 export default function Navigation() {
   const location = useLocation();
   const { user, isAuthenticated, logout } = useAuth();
+  const { t, language, setLanguage } = useI18n();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false);
   const isHome = location.pathname === '/';
 
   // Automatically close mobile menu on route change
@@ -34,24 +38,70 @@ export default function Navigation() {
     }
   }, [isMobileMenuOpen]);
 
+  const handleOpenConcierge = () => {
+    const trigger = document.getElementById('concierge-trigger-btn');
+    if (trigger) trigger.click();
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <header className={`navigation ${isHome ? 'nav-transparent' : 'nav-solid'}`}>
       <div className="nav-container">
         <div className="nav-left">
           <Link to="/" className="brand-mark" aria-label="Auremont Home">AUREMONT</Link>
           <nav className="nav-links desktop-only" aria-label="Primary Marketplace">
-            <Link to="/search?mode=buy">Buy</Link>
-            <Link to="/search?mode=rent">Rent</Link>
-            <Link to="/search?mode=lease">Lease</Link>
-            <Link to="/cars">Cars</Link>
+            <Link to="/search?mode=buy">{t.nav.buy}</Link>
+            <Link to="/search?mode=rent">{t.nav.rent}</Link>
+            <Link to="/search?mode=lease">{t.nav.lease}</Link>
+            <Link to="/cars">{t.nav.cars}</Link>
           </nav>
         </div>
         
         <div className="nav-right desktop-only">
-          <Link to="/search">Explore</Link>
+          <Link to="/search">{t.nav.explore}</Link>
           <Link to="/search" className="icon-btn touch-target" aria-label="Search Marketplace">
             <Search size={20} strokeWidth={1.5} />
           </Link>
+
+          {/* Quick Concierge Trigger */}
+          <button 
+            className="icon-btn touch-target nav-concierge-quick-btn" 
+            onClick={handleOpenConcierge}
+            title={t.nav.concierge}
+            aria-label={t.nav.concierge}
+          >
+            <Sparkles size={18} strokeWidth={1.8} style={{ color: '#C5A880' }} />
+          </button>
+
+          {/* Language Switcher Dropdown */}
+          <div className="nav-lang-dropdown">
+            <button 
+              className="nav-lang-btn touch-target" 
+              onClick={() => setIsLangOpen(!isLangOpen)}
+              aria-label="Change Language"
+            >
+              <Globe size={16} />
+              <span>{language.toUpperCase()}</span>
+            </button>
+            {isLangOpen && (
+              <div className="nav-lang-menu" onMouseLeave={() => setIsLangOpen(false)}>
+                {(['en', 'fr', 'es'] as const).map(langCode => (
+                  <button
+                    key={langCode}
+                    className={`nav-lang-item ${language === langCode ? 'active' : ''}`}
+                    onClick={() => {
+                      setLanguage(langCode as Language);
+                      setIsLangOpen(false);
+                    }}
+                  >
+                    {langCode === 'en' && 'English'}
+                    {langCode === 'fr' && 'Français'}
+                    {langCode === 'es' && 'Español'}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           
           {isAuthenticated ? (
             <div className="nav-account dropdown-trigger">
@@ -68,26 +118,26 @@ export default function Navigation() {
                   <span className="dropdown-email">{user?.email}</span>
                 </div>
                 <div className="dropdown-divider"></div>
-                <Link to="/account" className="dropdown-item"><User size={16} /> Consumer Dashboard</Link>
+                <Link to="/account" className="dropdown-item"><User size={16} /> {t.nav.consumerDashboard}</Link>
                 <Link to="/provider" className="dropdown-item" style={{ color: 'var(--color-primary-navy)', fontWeight: 600 }}>
-                  <Briefcase size={16} /> Provider Workspace
+                  <Briefcase size={16} /> {t.nav.providerWorkspace}
                 </Link>
                 <Link to="/admin" className="dropdown-item" style={{ color: 'var(--color-gold)', fontWeight: 600 }}>
-                  <Shield size={16} /> Operations Console
+                  <Shield size={16} /> {t.nav.operationsConsole}
                 </Link>
-                <Link to="/account/favorites" className="dropdown-item"><Heart size={16} /> Favorites</Link>
-                <Link to="/account/messages" className="dropdown-item"><MessageSquare size={16} /> Messages</Link>
-                <Link to="/account/transactions" className="dropdown-item"><CreditCard size={16} /> Transactions</Link>
-                <Link to="/account/settings" className="dropdown-item"><Settings size={16} /> Settings</Link>
+                <Link to="/account/favorites" className="dropdown-item"><Heart size={16} /> {t.nav.favorites}</Link>
+                <Link to="/account/messages" className="dropdown-item"><MessageSquare size={16} /> {t.nav.messages}</Link>
+                <Link to="/account/transactions" className="dropdown-item"><CreditCard size={16} /> {t.nav.transactions}</Link>
+                <Link to="/account/settings" className="dropdown-item"><Settings size={16} /> {t.nav.settings}</Link>
                 <div className="dropdown-divider"></div>
-                <button onClick={logout} className="dropdown-item text-error"><LogOut size={16} /> Sign out</button>
+                <button onClick={logout} className="dropdown-item text-error"><LogOut size={16} /> {t.nav.signOut}</button>
               </div>
             </div>
           ) : (
-            <Link to="/login" className="btn btn-secondary">Sign in</Link>
+            <Link to="/login" className="btn btn-secondary">{t.nav.signIn}</Link>
           )}
 
-          <Link to="/provider/properties/new" className="btn btn-primary nav-list-btn">List Property</Link>
+          <Link to="/provider/properties/new" className="btn btn-primary nav-list-btn">{t.nav.listProperty}</Link>
         </div>
 
         <button 
@@ -116,13 +166,49 @@ export default function Navigation() {
             </div>
 
             <div className="mobile-drawer-body">
+              {/* Language Switcher in Mobile Drawer */}
+              <div className="mobile-drawer-lang-selector">
+                <span className="mobile-section-label">Language / Langue</span>
+                <div className="mobile-lang-pills">
+                  {(['en', 'fr', 'es'] as const).map(langCode => (
+                    <button
+                      key={langCode}
+                      className={`mobile-lang-pill ${language === langCode ? 'active' : ''}`}
+                      onClick={() => setLanguage(langCode as Language)}
+                    >
+                      {langCode === 'en' && 'English'}
+                      {langCode === 'fr' && 'Français'}
+                      {langCode === 'es' && 'Español'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mobile-drawer-divider"></div>
+
+              {/* AI Concierge Trigger in Mobile Drawer */}
+              <button 
+                className="mobile-concierge-banner-btn"
+                onClick={handleOpenConcierge}
+              >
+                <div className="mobile-concierge-icon-wrap">
+                  <Sparkles size={18} />
+                </div>
+                <div>
+                  <div className="mobile-concierge-title">{t.concierge.title}</div>
+                  <div className="mobile-concierge-sub">{t.concierge.status}</div>
+                </div>
+              </button>
+
+              <div className="mobile-drawer-divider"></div>
+
               <div className="mobile-drawer-section">
-                <span className="mobile-section-label">Marketplace</span>
-                <Link to="/search?mode=buy" className="mobile-nav-link">Buy Property</Link>
-                <Link to="/search?mode=rent" className="mobile-nav-link">Rent Property</Link>
-                <Link to="/search?mode=lease" className="mobile-nav-link">Commercial Lease</Link>
-                <Link to="/cars" className="mobile-nav-link">Auremont Mobility (Cars)</Link>
-                <Link to="/search" className="mobile-nav-link">Explore All Listings</Link>
+                <span className="mobile-section-label">{t.footer.marketplace}</span>
+                <Link to="/search?mode=buy" className="mobile-nav-link">{t.nav.buy}</Link>
+                <Link to="/search?mode=rent" className="mobile-nav-link">{t.nav.rent}</Link>
+                <Link to="/search?mode=lease" className="mobile-nav-link">{t.nav.lease}</Link>
+                <Link to="/cars" className="mobile-nav-link">{t.nav.cars}</Link>
+                <Link to="/search" className="mobile-nav-link">{t.nav.explore}</Link>
               </div>
 
               <div className="mobile-drawer-divider"></div>
@@ -130,13 +216,13 @@ export default function Navigation() {
               <div className="mobile-drawer-section">
                 <span className="mobile-section-label">Providers & Governance</span>
                 <Link to="/provider/properties/new" className="mobile-nav-link highlight">
-                  <PlusCircle size={18} /> List Your Property
+                  <PlusCircle size={18} /> {t.nav.listProperty}
                 </Link>
                 <Link to="/provider" className="mobile-nav-link">
-                  <Briefcase size={18} /> Provider Workspace
+                  <Briefcase size={18} /> {t.nav.providerWorkspace}
                 </Link>
                 <Link to="/admin" className="mobile-nav-link" style={{ color: 'var(--color-gold)', fontWeight: 600 }}>
-                  <Shield size={18} /> Operations Console (Admin)
+                  <Shield size={18} /> {t.nav.operationsConsole}
                 </Link>
               </div>
 
@@ -155,17 +241,18 @@ export default function Navigation() {
                         <span className="mobile-user-email">{user?.email}</span>
                       </div>
                     </div>
-                    <Link to="/account" className="mobile-nav-link"><User size={16} /> Consumer Dashboard</Link>
-                    <Link to="/account/favorites" className="mobile-nav-link"><Heart size={16} /> Saved Favorites</Link>
-                    <Link to="/account/transactions" className="mobile-nav-link"><CreditCard size={16} /> Transactions</Link>
-                    <Link to="/account/settings" className="mobile-nav-link"><Settings size={16} /> Account Settings</Link>
+                    <Link to="/account" className="mobile-nav-link"><User size={16} /> {t.nav.consumerDashboard}</Link>
+                    <Link to="/account/favorites" className="mobile-nav-link"><Heart size={16} /> {t.nav.favorites}</Link>
+                    <Link to="/account/messages" className="mobile-nav-link"><MessageSquare size={16} /> {t.nav.messages}</Link>
+                    <Link to="/account/transactions" className="mobile-nav-link"><CreditCard size={16} /> {t.nav.transactions}</Link>
+                    <Link to="/account/settings" className="mobile-nav-link"><Settings size={16} /> {t.nav.settings}</Link>
                     <button onClick={logout} className="mobile-nav-link text-error">
-                      <LogOut size={16} /> Sign out
+                      <LogOut size={16} /> {t.nav.signOut}
                     </button>
                   </>
                 ) : (
                   <div className="mobile-auth-actions">
-                    <Link to="/login" className="btn btn-primary w-full">Sign in</Link>
+                    <Link to="/login" className="btn btn-primary w-full">{t.nav.signIn}</Link>
                     <Link to="/register" className="btn btn-secondary w-full" style={{ marginTop: 'var(--space-2)' }}>
                       Create Account
                     </Link>
@@ -179,4 +266,3 @@ export default function Navigation() {
     </header>
   );
 }
-

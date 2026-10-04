@@ -4,22 +4,43 @@ import { Heart, Share, ChevronLeft, ChevronRight, X, CheckCircle2, MapPin } from
 import { mockProperties, formatPrice } from '../data/mockProperties';
 import type { Property } from '../data/mockProperties';
 import PropertyCard from '../components/PropertyCard';
+import { useConsumerState } from '../context/ConsumerContext';
 import './PropertyDetail.css';
 
 export default function PropertyDetail({ previewProperty }: { previewProperty?: Property } = {}) {
   const { id } = useParams<{ id: string }>();
   const [property, setProperty] = useState<Property | null>(previewProperty || null);
+  const { addRecentlyViewed, toggleFavorite, isFavorite, createInquiryThread, createBooking } = useConsumerState();
   
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [preferredDate, setPreferredDate] = useState('');
+  const [inquiryText, setInquiryText] = useState('');
+  const [confirmationToast, setConfirmationToast] = useState<string | null>(null);
 
   useEffect(() => {
+    let currentProp: Property | undefined;
     if (previewProperty) {
+      currentProp = previewProperty;
       setProperty(previewProperty);
     } else {
-      const found = mockProperties.find(p => p.id === id);
-      setProperty(found || null);
+      currentProp = mockProperties.find(p => p.id === id);
+      setProperty(currentProp || null);
+    }
+    
+    if (currentProp) {
+      addRecentlyViewed({
+        id: currentProp.id,
+        type: 'property',
+        title: currentProp.title,
+        subtitle: `${currentProp.neighborhood}, ${currentProp.city}`,
+        price: currentProp.price,
+        currency: currentProp.currency,
+        pricingCadence: currentProp.pricingCadence,
+        image: currentProp.mainImage,
+        slug: currentProp.slug,
+      });
     }
     window.scrollTo(0, 0);
   }, [id, previewProperty]);
@@ -56,9 +77,17 @@ export default function PropertyDetail({ previewProperty }: { previewProperty?: 
           <button className="icon-btn-labeled">
             <Share size={18} strokeWidth={1.5} /> Share
           </button>
-          <button className="icon-btn-labeled">
-            <Heart size={18} strokeWidth={1.5} className={property.favoriteState ? 'favorite-active' : ''} fill={property.favoriteState ? 'currentColor' : 'transparent'} /> 
-            {property.favoriteState ? 'Saved' : 'Save'}
+          <button 
+            className="icon-btn-labeled"
+            onClick={() => toggleFavorite(property.id)}
+          >
+            <Heart 
+              size={18} 
+              strokeWidth={1.5} 
+              className={isFavorite(property.id) ? 'favorite-active' : ''} 
+              fill={isFavorite(property.id) ? 'currentColor' : 'transparent'} 
+            /> 
+            {isFavorite(property.id) ? 'Saved' : 'Save'}
           </button>
         </div>
       </div>
@@ -246,6 +275,14 @@ export default function PropertyDetail({ previewProperty }: { previewProperty?: 
         </div>
       )}
 
+      {/* Feedback Toast */}
+      {confirmationToast && (
+        <div className="alert alert-success" style={{ position: 'fixed', bottom: '24px', left: '24px', zIndex: 1100, boxShadow: '0 8px 30px rgba(0,0,0,0.2)' }}>
+          <CheckCircle2 size={16} />
+          <span>{confirmationToast}</span>
+        </div>
+      )}
+
       {/* Contact/Viewing Flow Dialog */}
       {isContactOpen && (
         <>
@@ -257,27 +294,68 @@ export default function PropertyDetail({ previewProperty }: { previewProperty?: 
                 <X size={20} strokeWidth={1.5} />
               </button>
             </div>
-            <div className="dialog-content">
-              <p>You are requesting to {property.transactionType.toLowerCase()} <strong>{property.title}</strong>.</p>
-              
-              <div className="form-group" style={{marginTop: 'var(--space-4)'}}>
-                <label className="text-meta">Preferred Date</label>
-                <input type="date" className="input-field" />
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              createInquiryThread({
+                propertyId: property.id,
+                propertyTitle: property.title,
+                propertyImage: property.mainImage,
+                agentName: property.provider.name,
+                agentAgency: property.provider.agency,
+                message: inquiryText.trim() || `I am requesting private accompanied access for ${property.title} on ${preferredDate || 'the earliest available appointment slot'}.`,
+              });
+
+              if (preferredDate) {
+                createBooking({
+                  type: 'property_viewing',
+                  itemTitle: property.title,
+                  itemSubtitle: `${property.neighborhood}, ${property.city}`,
+                  itemImage: property.mainImage,
+                  referenceId: property.id,
+                  scheduledDate: preferredDate,
+                  scheduledTime: '15:00',
+                  format: 'In-Person Accompanied',
+                  agentName: property.provider.name,
+                  agentPhone: '+33 1 42 68 55 00',
+                  notes: inquiryText.trim() || 'Direct booking from residence page.',
+                });
+              }
+
+              setIsContactOpen(false);
+              setConfirmationToast(`Your viewing request for ${property.title} was submitted to ${property.provider.name}. View in Account.`);
+              setTimeout(() => setConfirmationToast(null), 5000);
+            }}>
+              <div className="dialog-content">
+                <p>You are requesting to {property.transactionType.toLowerCase()} <strong>{property.title}</strong>.</p>
+                
+                <div className="form-group" style={{marginTop: 'var(--space-4)'}}>
+                  <label className="text-meta">Preferred Date</label>
+                  <input 
+                    type="date" 
+                    className="input-field" 
+                    value={preferredDate}
+                    onChange={e => setPreferredDate(e.target.value)}
+                    min={new Date().toISOString().split('T')[0]}
+                  />
+                </div>
+                
+                <div className="form-group" style={{marginTop: 'var(--space-4)'}}>
+                  <label className="text-meta">Message to {property.provider.name}</label>
+                  <textarea 
+                    className="input-field" 
+                    style={{height: '100px', paddingTop: '12px'}} 
+                    placeholder="Introduce yourself and share your requirements..."
+                    value={inquiryText}
+                    onChange={e => setInquiryText(e.target.value)}
+                  ></textarea>
+                </div>
               </div>
-              
-              <div className="form-group" style={{marginTop: 'var(--space-4)'}}>
-                <label className="text-meta">Message to {property.provider.name}</label>
-                <textarea className="input-field" style={{height: '100px', paddingTop: '12px'}} placeholder="Introduce yourself and share your requirements..."></textarea>
+              <div className="dialog-footer">
+                <button type="submit" className="btn btn-primary w-full">
+                  Transmit Request
+                </button>
               </div>
-            </div>
-            <div className="dialog-footer">
-              <button className="btn btn-primary w-full" onClick={() => {
-                alert("This is a frontend demonstration. In production, this would securely send your inquiry to the provider.");
-                setIsContactOpen(false);
-              }}>
-                Send request
-              </button>
-            </div>
+            </form>
           </div>
         </>
       )}

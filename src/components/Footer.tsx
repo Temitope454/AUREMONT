@@ -16,20 +16,20 @@ export default function Footer() {
           </div>
           <div className="footer-links">
             <span className="footer-heading">{t.footer.marketplace}</span>
-            <Link to="/search?mode=buy">{t.nav.buy}</Link>
-            <Link to="/search?mode=rent">{t.nav.rent}</Link>
-            <Link to="/search?mode=lease">{t.nav.lease}</Link>
+            <Link to="/buy">{t.nav.buy}</Link>
+            <Link to="/rent">{t.nav.rent}</Link>
+            <Link to="/lease">{t.nav.lease}</Link>
             <Link to="/cars">{t.nav.cars}</Link>
           </div>
           <div className="footer-links">
             <span className="footer-heading">{t.footer.company}</span>
             <Link to="/about">{t.footer.about}</Link>
-            <Link to="/trust">{t.footer.trust}</Link>
-            <Link to="/contact">{t.footer.contact}</Link>
+            <Link to="/about#trust">{t.footer.trust}</Link>
+            <Link to="/about#contact">{t.footer.contact}</Link>
           </div>
           <div className="footer-links">
             <span className="footer-heading">{t.footer.support}</span>
-            <Link to="/help">{t.footer.help}</Link>
+            <Link to="/about#contact">{t.footer.help}</Link>
             <Link to="/terms">{t.footer.terms}</Link>
             <Link to="/privacy">{t.footer.privacy}</Link>
           </div>

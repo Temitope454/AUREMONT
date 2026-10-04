@@ -50,15 +50,15 @@ export default function Navigation() {
         <div className="nav-left">
           <Link to="/" className="brand-mark" aria-label="Auremont Home">AUREMONT</Link>
           <nav className="nav-links desktop-only" aria-label="Primary Marketplace">
-            <Link to="/search?mode=buy">{t.nav.buy}</Link>
-            <Link to="/search?mode=rent">{t.nav.rent}</Link>
-            <Link to="/search?mode=lease">{t.nav.lease}</Link>
+            <Link to="/buy">{t.nav.buy}</Link>
+            <Link to="/rent">{t.nav.rent}</Link>
+            <Link to="/lease">{t.nav.lease}</Link>
             <Link to="/cars">{t.nav.cars}</Link>
           </nav>
         </div>
         
         <div className="nav-right desktop-only">
-          <Link to="/search">{t.nav.explore}</Link>
+          <Link to="/explore">{t.nav.explore}</Link>
           <Link to="/search" className="icon-btn touch-target" aria-label="Search Marketplace">
             <Search size={20} strokeWidth={1.5} />
           </Link>
@@ -204,11 +204,11 @@ export default function Navigation() {
 
               <div className="mobile-drawer-section">
                 <span className="mobile-section-label">{t.footer.marketplace}</span>
-                <Link to="/search?mode=buy" className="mobile-nav-link">{t.nav.buy}</Link>
-                <Link to="/search?mode=rent" className="mobile-nav-link">{t.nav.rent}</Link>
-                <Link to="/search?mode=lease" className="mobile-nav-link">{t.nav.lease}</Link>
+                <Link to="/buy" className="mobile-nav-link">{t.nav.buy}</Link>
+                <Link to="/rent" className="mobile-nav-link">{t.nav.rent}</Link>
+                <Link to="/lease" className="mobile-nav-link">{t.nav.lease}</Link>
                 <Link to="/cars" className="mobile-nav-link">{t.nav.cars}</Link>
-                <Link to="/search" className="mobile-nav-link">{t.nav.explore}</Link>
+                <Link to="/explore" className="mobile-nav-link">{t.nav.explore}</Link>
               </div>
 
               <div className="mobile-drawer-divider"></div>

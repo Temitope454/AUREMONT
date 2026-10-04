@@ -1,0 +1,119 @@
+.not-found-page {
+  padding-top: 100px;
+  padding-bottom: 80px;
+  background: var(--color-bg-ivory);
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+}
+
+.not-found-container {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.not-found-code {
+  display: inline-block;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent-terracotta);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.not-found-title {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-display, 'Instrument Serif', Georgia, serif);
+  font-weight: 400;
+  color: var(--color-text-ink);
+  line-height: 1.15;
+}
+
+.not-found-desc {
+  color: var(--color-text-slate);
+  margin: 0 0 var(--space-6);
+  line-height: 1.6;
+}
+
+.not-found-search {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-surface-white);
+  border: 1px solid var(--color-border-limestone);
+  border-radius: 999px;
+  padding: 6px 6px 6px 16px;
+  box-shadow: 0 4px 15px rgba(24, 36, 46, 0.05);
+  margin-bottom: var(--space-8);
+}
+
+.not-found-search:focus-within {
+  border-color: var(--color-primary-navy);
+}
+
+.not-found-search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.not-found-links-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-3);
+  text-align: left;
+}
+
+.not-found-link-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-surface-white);
+  border: 1px solid var(--color-border-limestone);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  color: var(--color-text-ink);
+}
+
+.not-found-link-item:hover {
+  border-color: var(--color-primary-navy);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(24, 36, 46, 0.06);
+}
+
+.not-found-link-item div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.not-found-link-item strong {
+  font-size: 0.92rem;
+}
+
+.not-found-link-item span {
+  font-size: 0.78rem;
+  color: var(--color-text-slate);
+}
+
+.link-arrow {
+  color: var(--color-text-slate);
+}
+
+@media (max-width: 600px) {
+  .not-found-page {
+    padding-top: 80px;
+  }
+}

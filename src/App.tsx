@@ -8,6 +8,11 @@ import PropertyDetail from './pages/PropertyDetail';
 import Cars from './pages/Cars';
 import CarDetail from './pages/CarDetail';
 import Auth from './pages/Auth';
+import Explore from './pages/Explore';
+import About from './pages/About';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+import NotFound from './pages/NotFound';
 import Checkout from './pages/Checkout';
 import ProtectedRoute from './components/ProtectedRoute';
 import AccountLayout from './pages/Account/AccountLayout';
@@ -66,12 +71,22 @@ function App() {
                 <Navigation />
                 <main>
                   <Routes>
-                    {/* Public Routes */}
+                    {/* Canonical Public Routes */}
                     <Route path="/" element={<Home />} />
+                    <Route path="/buy" element={<Search />} />
+                    <Route path="/rent" element={<Search />} />
+                    <Route path="/lease" element={<Search />} />
                     <Route path="/search" element={<Search />} />
-                    <Route path="/property/:id" element={<PropertyDetail />} />
+                    <Route path="/explore" element={<Explore />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/terms" element={<Terms />} />
+                    <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/trust" element={<Navigate to="/about#trust" replace />} />
+                    <Route path="/contact" element={<Navigate to="/about#contact" replace />} />
+                    <Route path="/help" element={<Navigate to="/about#contact" replace />} />
                     <Route path="/cars" element={<Cars />} />
                     <Route path="/cars/:slug" element={<CarDetail />} />
+                    <Route path="/property/:id" element={<PropertyDetail />} />
                     <Route path="/login" element={<Auth />} />
                     <Route path="/register" element={<Auth />} />
                     <Route path="/forgot-password" element={<Auth />} />
@@ -128,10 +143,13 @@ function App() {
                       <Route path="users" element={<AdminUsers />} />
                       <Route path="audit" element={<AdminAuditLog />} />
                     </Route>
+
+                    {/* 404 Catch-All */}
+                    <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>
                 <Footer />
-                {/* AI Concierge omnipresent floating trigger & assistant */}
+                {/* Concierge assistant floating trigger */}
                 <ConciergeDrawer />
               </div>
             </Router>

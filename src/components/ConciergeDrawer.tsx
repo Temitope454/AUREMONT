@@ -181,10 +181,10 @@ export default function ConciergeDrawer() {
       format: 'In-Person Accompanied',
       agentName: property.provider.name,
       agentPhone: '+33 1 42 68 55 00',
-      notes: 'Arranged via Auremont AI Concierge VIP channel.',
+      notes: 'Arranged via Auremont Concierge.',
     });
 
-    setActionSuccess(`Private viewing scheduled for ${property.title}. Dossier updated in Bookings.`);
+    setActionSuccess(`Viewing request submitted for ${property.title}. Dossier updated in Bookings.`);
     setTimeout(() => setActionSuccess(null), 4000);
   };
 
@@ -200,10 +200,10 @@ export default function ConciergeDrawer() {
       format: 'Chauffeur Delivery',
       agentName: car.provider.name,
       agentPhone: '+33 1 70 80 90 00',
-      notes: 'Reserved via Auremont AI Concierge.',
+      notes: 'Reserved via Auremont Concierge.',
     });
 
-    setActionSuccess(`Reservation confirmed for ${car.make} ${car.model}. Logistics notified.`);
+    setActionSuccess(`Reservation requested for ${car.make} ${car.model}. Logistics notified.`);
     setTimeout(() => setActionSuccess(null), 4000);
   };
 
@@ -214,10 +214,10 @@ export default function ConciergeDrawer() {
       propertyImage: property.mainImage,
       agentName: property.provider.name,
       agentAgency: property.provider.agency,
-      message: `Hello ${property.provider.name}, I was recommended this property by the Auremont Private Concierge and would like to review the complete architectural and legal dossier.`,
+      message: `Hello ${property.provider.name}, I am inquiring about this property via Auremont Concierge and would like to review further architectural and availability details.`,
     });
 
-    setActionSuccess(`Direct channel opened with ${property.provider.name}. Available in Messages.`);
+    setActionSuccess(`Inquiry channel opened with ${property.provider.name}. Available in Messages.`);
     setTimeout(() => setActionSuccess(null), 4000);
   };
 
@@ -252,11 +252,11 @@ export default function ConciergeDrawer() {
 
   return (
     <>
-      {/* Floating Luxury Trigger Pill */}
+      {/* Floating Concierge Trigger Pill */}
       <button 
         className={`concierge-floating-trigger ${isOpen ? 'active' : ''}`}
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Open Auremont AI Private Concierge"
+        aria-label="Open Auremont Concierge"
         id="concierge-trigger-btn"
       >
         <div className="concierge-trigger-icon-wrap">
@@ -264,18 +264,18 @@ export default function ConciergeDrawer() {
           <span className="concierge-status-dot"></span>
         </div>
         <div className="concierge-trigger-text">
-          <span className="concierge-brand-title">Auremont Concierge</span>
-          <span className="concierge-brand-sub">Private Client Advisor</span>
+          <span className="concierge-brand-title">Ask Auremont</span>
+          <span className="concierge-brand-sub">Auremont Concierge</span>
         </div>
       </button>
 
-      {/* Slide-out Luxury Concierge Drawer */}
+      {/* Slide-out Concierge Drawer */}
       <div className={`concierge-drawer-overlay ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(false)}>
         <aside 
           className={`concierge-drawer ${isOpen ? 'open' : ''}`}
           onClick={e => e.stopPropagation()}
           role="dialog"
-          aria-label="Auremont Private Concierge Interface"
+          aria-label="Auremont Concierge Interface"
         >
           {/* Header */}
           <div className="concierge-header">

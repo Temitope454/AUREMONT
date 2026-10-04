@@ -15,8 +15,8 @@ export default function Home() {
     if (activeMode === 'cars') {
       navigate('/cars');
     } else {
-      const queryParam = searchLocation.trim() ? `&location=${encodeURIComponent(searchLocation.trim())}` : '';
-      navigate(`/search?mode=${activeMode}${queryParam}`);
+      const queryParam = searchLocation.trim() ? `?location=${encodeURIComponent(searchLocation.trim())}` : '';
+      navigate(`/${activeMode}${queryParam}`);
     }
   };
 
@@ -132,7 +132,7 @@ export default function Home() {
           <div className="signature-content">
             <h2 className="h2">An apartment framed by Parisian rooftops.</h2>
             <p className="large">Set on an upper floor near the Seine, this three-bedroom apartment pairs a restrained contemporary renovation with the proportions of a classic Paris residence.</p>
-            <Link to="/property/paris-lux-1" className="btn btn-primary" style={{ marginTop: 'var(--space-4)', display: 'inline-flex' }}>
+            <Link to="/property/p-1001" className="btn btn-primary" style={{ marginTop: 'var(--space-4)', display: 'inline-flex' }}>
               Explore property
             </Link>
           </div>

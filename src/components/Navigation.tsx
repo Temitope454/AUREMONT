@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, User, Menu, X, LogOut, Settings, CreditCard, Heart, MessageSquare, Briefcase, PlusCircle } from 'lucide-react';
+import { Search, User, Menu, X, LogOut, Settings, CreditCard, Heart, MessageSquare, Briefcase, PlusCircle, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import './Navigation.css';
 
@@ -72,6 +72,9 @@ export default function Navigation() {
                 <Link to="/provider" className="dropdown-item" style={{ color: 'var(--color-primary-navy)', fontWeight: 600 }}>
                   <Briefcase size={16} /> Provider Workspace
                 </Link>
+                <Link to="/admin" className="dropdown-item" style={{ color: 'var(--color-gold)', fontWeight: 600 }}>
+                  <Shield size={16} /> Operations Console
+                </Link>
                 <Link to="/account/favorites" className="dropdown-item"><Heart size={16} /> Favorites</Link>
                 <Link to="/account/messages" className="dropdown-item"><MessageSquare size={16} /> Messages</Link>
                 <Link to="/account/transactions" className="dropdown-item"><CreditCard size={16} /> Transactions</Link>
@@ -125,12 +128,15 @@ export default function Navigation() {
               <div className="mobile-drawer-divider"></div>
 
               <div className="mobile-drawer-section">
-                <span className="mobile-section-label">Providers</span>
+                <span className="mobile-section-label">Providers & Governance</span>
                 <Link to="/provider/properties/new" className="mobile-nav-link highlight">
                   <PlusCircle size={18} /> List Your Property
                 </Link>
                 <Link to="/provider" className="mobile-nav-link">
                   <Briefcase size={18} /> Provider Workspace
+                </Link>
+                <Link to="/admin" className="mobile-nav-link" style={{ color: 'var(--color-gold)', fontWeight: 600 }}>
+                  <Shield size={18} /> Operations Console (Admin)
                 </Link>
               </div>
 

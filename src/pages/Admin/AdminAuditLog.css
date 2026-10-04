@@ -1,0 +1,45 @@
+.admin-audit-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.timestamp-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.time-date {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-primary-navy);
+}
+
+.time-time {
+  font-size: 11px;
+}
+
+.audit-cat-chip {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  background-color: var(--color-sand);
+  color: var(--color-slate);
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.target-summary {
+  font-weight: 600;
+  color: var(--color-primary-navy);
+  font-size: 13px;
+}
+
+.details-text {
+  font-size: 13px;
+  color: var(--color-slate);
+  line-height: 1.45;
+  max-width: 440px;
+}

@@ -1,0 +1,112 @@
+.admin-gate-page {
+  min-height: calc(100vh - 180px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-4);
+  background: radial-gradient(circle at 50% 20%, rgba(169, 104, 79, 0.06), transparent 70%), var(--color-sand);
+}
+
+.admin-gate-card {
+  width: 100%;
+  max-width: 520px;
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  padding: clamp(28px, 5vw, 44px);
+  box-shadow: 0 16px 40px rgba(24, 36, 46, 0.08);
+  border-radius: 2px;
+}
+
+.admin-gate-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 4px 12px;
+  background: rgba(168, 58, 42, 0.08);
+  color: var(--color-error-brick);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+  border-radius: 2px;
+}
+
+.admin-gate-title {
+  font-family: var(--font-serif);
+  color: var(--color-primary-navy);
+  margin-bottom: var(--space-3);
+  font-size: clamp(26px, 4vw, 32px);
+  line-height: 1.15;
+}
+
+.admin-gate-desc {
+  font-family: var(--font-sans);
+  color: var(--color-slate);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: var(--space-6);
+}
+
+.admin-gate-credentials-box {
+  background: var(--color-cream);
+  border: 1px solid var(--color-border);
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+  border-radius: 2px;
+}
+
+.compliance-officer-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.shield-icon {
+  color: var(--color-gold);
+  flex-shrink: 0;
+}
+
+.officer-name {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--color-primary-navy);
+  font-size: 15px;
+}
+
+.officer-title {
+  font-size: 12px;
+  color: var(--color-slate);
+  margin-top: 1px;
+}
+
+.officer-meta {
+  font-size: 11px;
+  color: var(--color-slate);
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.admin-gate-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.admin-gate-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.admin-gate-footer-note {
+  font-size: 11px;
+  color: var(--color-slate);
+  line-height: 1.5;
+  text-align: center;
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}

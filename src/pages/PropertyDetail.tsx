@@ -6,19 +6,23 @@ import type { Property } from '../data/mockProperties';
 import PropertyCard from '../components/PropertyCard';
 import './PropertyDetail.css';
 
-export default function PropertyDetail() {
+export default function PropertyDetail({ previewProperty }: { previewProperty?: Property } = {}) {
   const { id } = useParams<{ id: string }>();
-  const [property, setProperty] = useState<Property | null>(null);
+  const [property, setProperty] = useState<Property | null>(previewProperty || null);
   
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isContactOpen, setIsContactOpen] = useState(false);
 
   useEffect(() => {
-    const found = mockProperties.find(p => p.id === id);
-    setProperty(found || null);
+    if (previewProperty) {
+      setProperty(previewProperty);
+    } else {
+      const found = mockProperties.find(p => p.id === id);
+      setProperty(found || null);
+    }
     window.scrollTo(0, 0);
-  }, [id]);
+  }, [id, previewProperty]);
 
   if (!property) {
     return (

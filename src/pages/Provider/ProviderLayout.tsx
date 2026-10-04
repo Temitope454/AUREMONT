@@ -17,7 +17,7 @@ import {
 import { ProviderProvider } from '../../context/ProviderContext';
 
 function ProviderLayoutInner() {
-  const { user, logout } = useAuth();
+  const { user, logout, switchRole } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -44,6 +44,8 @@ function ProviderLayoutInner() {
     { label: 'Messages', path: '/provider/messages', icon: <MessageSquare size={20} /> },
     { label: 'Transactions', path: '/provider/transactions', icon: <CreditCard size={20} /> },
     { label: 'Earnings', path: '/provider/earnings', icon: <Briefcase size={20} /> },
+    { label: 'Verification', path: '/provider/verification', icon: <CalendarCheck size={20} /> },
+    { label: 'Notifications', path: '/provider/notifications', icon: <MessageSquare size={20} /> },
     { label: 'Profile', path: '/provider/profile', icon: <User size={20} /> },
     { label: 'Settings', path: '/provider/settings', icon: <Settings size={20} /> },
   ];
@@ -55,7 +57,48 @@ function ProviderLayoutInner() {
       <aside className="provider-sidebar desktop-only">
         <div className="sidebar-header">
           <Link to="/" className="brand-mark">AUREMONT</Link>
-          <div className="provider-badge">{isAgent ? 'Agent Workspace' : 'Landlord Workspace'}</div>
+          <div className="provider-badge" style={{ marginTop: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span>{isAgent ? 'Agent Workspace' : 'Landlord Workspace'}</span>
+            <span style={{ fontSize: '10px', opacity: 0.8, textTransform: 'uppercase' }}>Demo Auth</span>
+          </div>
+        </div>
+
+        {/* Role Quick Switcher for Testing / Demo */}
+        <div style={{ padding: '0 var(--space-4) var(--space-4)' }}>
+          <div style={{ display: 'flex', backgroundColor: 'var(--color-bg-sand)', borderRadius: 'var(--radius-md)', padding: '2px' }}>
+            <button
+              onClick={() => switchRole('agent')}
+              style={{
+                flex: 1,
+                border: 'none',
+                padding: '4px 8px',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: '11px',
+                fontWeight: isAgent ? 700 : 500,
+                backgroundColor: isAgent ? 'var(--color-primary-navy)' : 'transparent',
+                color: isAgent ? '#fff' : 'var(--color-text-slate)',
+                cursor: 'pointer'
+              }}
+            >
+              Agent View
+            </button>
+            <button
+              onClick={() => switchRole('landlord')}
+              style={{
+                flex: 1,
+                border: 'none',
+                padding: '4px 8px',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: '11px',
+                fontWeight: !isAgent ? 700 : 500,
+                backgroundColor: !isAgent ? 'var(--color-primary-navy)' : 'transparent',
+                color: !isAgent ? '#fff' : 'var(--color-text-slate)',
+                cursor: 'pointer'
+              }}
+            >
+              Landlord View
+            </button>
+          </div>
         </div>
         
         <nav className="sidebar-nav">
@@ -78,6 +121,13 @@ function ProviderLayoutInner() {
               </Link>
             );
           })}
+
+          <div style={{ margin: 'var(--space-4) 0', borderTop: '1px solid var(--color-border-limestone)' }}></div>
+
+          <Link to="/account" className="sidebar-link" style={{ color: 'var(--color-primary-navy)' }}>
+            <span className="link-icon"><User size={20} /></span>
+            Consumer Portal
+          </Link>
         </nav>
         
         <div className="sidebar-footer">
@@ -87,7 +137,7 @@ function ProviderLayoutInner() {
             </div>
             <div className="identity-details">
               <div className="identity-name">{user?.firstName} {user?.lastName}</div>
-              <div className="identity-role">{isAgent ? 'Agent' : 'Landlord'}</div>
+              <div className="identity-role">{isAgent ? 'Agent' : 'Landlord'} • Demo</div>
             </div>
           </div>
           <button className="sidebar-link text-error w-full" onClick={handleLogout} style={{marginTop: 'var(--space-4)'}}>

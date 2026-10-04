@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -22,6 +22,8 @@ import PropertiesList from './pages/Provider/PropertiesList';
 import AddProperty from './pages/Provider/AddProperty';
 import ProviderEarnings from './pages/Provider/ProviderEarnings';
 import ProviderTransactions from './pages/Provider/ProviderTransactions';
+import TransactionDetail from './pages/Provider/TransactionDetail';
+import PropertyMedia from './pages/Provider/PropertyMedia';
 import ProviderOnboarding from './pages/Provider/ProviderOnboarding';
 import ProviderLeads from './pages/Provider/ProviderLeads';
 import ProviderRequests from './pages/Provider/ProviderRequests';
@@ -55,6 +57,9 @@ function App() {
                 <Route path="/register" element={<Auth />} />
                 <Route path="/forgot-password" element={<Auth />} />
                 
+                {/* List Property public redirect */}
+                <Route path="/list" element={<Navigate to="/provider/properties/new" replace />} />
+                
                 {/* Protected Routes */}
                 <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
                 
@@ -79,12 +84,14 @@ function App() {
                   <Route path="properties" element={<PropertiesList />} />
                   <Route path="properties/new" element={<AddProperty />} />
                   <Route path="properties/:id/edit" element={<AddProperty />} />
+                  <Route path="properties/:id/media" element={<PropertyMedia />} />
                   <Route path="properties/:id/preview" element={<PropertyPreview />} />
                   <Route path="leads" element={<ProviderLeads />} />
                   <Route path="requests" element={<ProviderRequests />} />
                   <Route path="viewings" element={<ProviderViewings />} />
                   <Route path="messages" element={<ProviderMessages />} />
                   <Route path="transactions" element={<ProviderTransactions />} />
+                  <Route path="transactions/:id" element={<TransactionDetail />} />
                   <Route path="earnings" element={<ProviderEarnings />} />
                   <Route path="onboarding" element={<ProviderOnboarding />} />
                   <Route path="verification" element={<ProviderVerification />} />

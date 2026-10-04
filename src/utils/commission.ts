@@ -1,26 +1,49 @@
 export type TransactionType = 'sale' | 'rent' | 'lease' | 'cars' | string;
 
 export interface CommissionResult {
-  rate: number;
-  commission: number;
-  net: number;
+  isConfigured: boolean;
+  rate?: number;
+  commission?: number;
+  net?: number;
+  message?: string;
 }
 
+/**
+ * Calculates Auremont platform commission using centralized business rules.
+ * - Property Sale: 10% commission rate
+ * - Rental Transaction: 5% commission rate
+ * - Lease / Cars / Other: Not yet configured (returns structured unconfigured result)
+ * 
+ * Uses standard 2-decimal financial rounding. Currencies are preserved and never mixed.
+ */
 export function calculateCommission(grossAmount: number, type: TransactionType): CommissionResult {
-  if (type === 'sale') {
+  if (typeof grossAmount !== 'number' || isNaN(grossAmount) || grossAmount < 0) {
+    return {
+      isConfigured: false,
+      message: 'Invalid transaction amount'
+    };
+  }
+
+  const normalizedType = type ? type.toLowerCase() : '';
+
+  if (normalizedType === 'sale') {
     const rate = 0.10;
-    const commission = grossAmount * rate;
-    const net = grossAmount - commission;
-    return { rate, commission, net };
+    const commission = Math.round(grossAmount * rate * 100) / 100;
+    const net = Math.round((grossAmount - commission) * 100) / 100;
+    return { isConfigured: true, rate, commission, net };
   }
   
-  if (type === 'rent') {
+  if (normalizedType === 'rent') {
     const rate = 0.05;
-    const commission = grossAmount * rate;
-    const net = grossAmount - commission;
-    return { rate, commission, net };
+    const commission = Math.round(grossAmount * rate * 100) / 100;
+    const net = Math.round((grossAmount - commission) * 100) / 100;
+    return { isConfigured: true, rate, commission, net };
   }
   
-  // Lease and Cars, or any other undefined types
-  throw new Error('Commission requires configuration.');
+  // Unconfigured transaction types (Lease, Cars, etc.)
+  return { 
+    isConfigured: false, 
+    message: 'Commission requires configuration' 
+  };
 }
+

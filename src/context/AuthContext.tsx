@@ -19,6 +19,8 @@ interface AuthContextType {
   logout: () => void;
   register: (data: Partial<User>) => Promise<void>;
   loginAsProvider: (role: 'agent' | 'landlord') => Promise<void>;
+  updateUser: (updates: Partial<User>) => void;
+  switchRole: (role: 'agent' | 'landlord' | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -82,12 +84,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           email: `${role}@auremont.demo`,
           language: 'en',
           providerRole: role,
-          providerVerificationStatus: 'verified' // Defaulting to verified for demo purposes, can be changed in settings
+          providerVerificationStatus: 'under_review' // Default to under_review for realistic auditing
         };
         setUser(mockProviderUser);
         localStorage.setItem('auremont_auth', JSON.stringify(mockProviderUser));
         resolve();
       }, 600);
+    });
+  };
+
+  const updateUser = (updates: Partial<User>) => {
+    setUser(prev => {
+      if (!prev) return null;
+      const updated = { ...prev, ...updates };
+      localStorage.setItem('auremont_auth', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const switchRole = (role: 'agent' | 'landlord' | null) => {
+    setUser(prev => {
+      if (!prev) return null;
+      const updated = { 
+        ...prev, 
+        providerRole: role,
+        providerVerificationStatus: role ? (prev.providerVerificationStatus || 'under_review') : undefined
+      };
+      localStorage.setItem('auremont_auth', JSON.stringify(updated));
+      return updated;
     });
   };
 
@@ -97,7 +121,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout, register, loginAsProvider }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      isAuthenticated: !!user, 
+      login, 
+      logout, 
+      register, 
+      loginAsProvider,
+      updateUser,
+      switchRole
+    }}>
       {children}
     </AuthContext.Provider>
   );

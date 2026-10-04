@@ -1,10 +1,25 @@
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import PropertyCard from '../components/PropertyCard';
 import './Home.css';
-
 import { mockProperties } from '../data/mockProperties';
 
 export default function Home() {
+  const navigate = useNavigate();
+  const [activeMode, setActiveMode] = useState<'buy' | 'rent' | 'lease' | 'cars'>('buy');
+  const [searchLocation, setSearchLocation] = useState('');
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (activeMode === 'cars') {
+      navigate('/cars');
+    } else {
+      const queryParam = searchLocation.trim() ? `&location=${encodeURIComponent(searchLocation.trim())}` : '';
+      navigate(`/search?mode=${activeMode}${queryParam}`);
+    }
+  };
+
   return (
     <div className="home-page">
       {/* Hero Section */}
@@ -19,31 +34,69 @@ export default function Home() {
             <h1 className="hero-headline">Exceptional places, clearly discovered.</h1>
             <p className="hero-subline large">Explore considered homes, rentals and stays across the world through one trusted marketplace.</p>
             
-            <div className="search-composer">
-              <div className="search-modes">
-                <button className="mode-btn active">Buy</button>
-                <button className="mode-btn">Rent</button>
-                <button className="mode-btn">Lease</button>
-                <button className="mode-btn">Cars</button>
+            <form className="search-composer" onSubmit={handleSearchSubmit}>
+              <div className="search-modes" role="tablist" aria-label="Marketplace Category">
+                <button 
+                  type="button"
+                  className={`mode-btn ${activeMode === 'buy' ? 'active' : ''}`}
+                  onClick={() => setActiveMode('buy')}
+                  role="tab"
+                  aria-selected={activeMode === 'buy'}
+                >
+                  Buy
+                </button>
+                <button 
+                  type="button"
+                  className={`mode-btn ${activeMode === 'rent' ? 'active' : ''}`}
+                  onClick={() => setActiveMode('rent')}
+                  role="tab"
+                  aria-selected={activeMode === 'rent'}
+                >
+                  Rent
+                </button>
+                <button 
+                  type="button"
+                  className={`mode-btn ${activeMode === 'lease' ? 'active' : ''}`}
+                  onClick={() => setActiveMode('lease')}
+                  role="tab"
+                  aria-selected={activeMode === 'lease'}
+                >
+                  Lease
+                </button>
+                <button 
+                  type="button"
+                  className={`mode-btn ${activeMode === 'cars' ? 'active' : ''}`}
+                  onClick={() => setActiveMode('cars')}
+                  role="tab"
+                  aria-selected={activeMode === 'cars'}
+                >
+                  Cars
+                </button>
               </div>
               <div className="search-inputs">
                 <div className="input-group search-location">
-                  <label>Where</label>
-                  <input type="text" placeholder="Search destinations" />
+                  <label htmlFor="search-dest-input">Where</label>
+                  <input 
+                    id="search-dest-input"
+                    type="text" 
+                    placeholder="Search destinations (e.g. Paris, London)" 
+                    value={searchLocation}
+                    onChange={e => setSearchLocation(e.target.value)}
+                  />
                 </div>
                 <div className="input-group desktop-only">
-                  <label>Property type</label>
-                  <input type="text" placeholder="Any" />
+                  <label htmlFor="prop-type-input">Property type</label>
+                  <input id="prop-type-input" type="text" placeholder="Any" readOnly />
                 </div>
                 <div className="input-group desktop-only">
-                  <label>Price</label>
-                  <input type="text" placeholder="Any" />
+                  <label htmlFor="price-range-input">Price</label>
+                  <input id="price-range-input" type="text" placeholder="Any" readOnly />
                 </div>
-                <button className="btn btn-primary search-submit" aria-label="Search">
+                <button type="submit" className="btn btn-primary search-submit" aria-label="Perform Search">
                   <Search size={20} strokeWidth={1.5} />
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </section>
@@ -51,9 +104,9 @@ export default function Home() {
       {/* Curated Properties */}
       <section className="curated-section">
         <div className="container">
-          <div className="section-header justify-between items-center flex">
-            <h2>Residences worth a closer look.</h2>
-            <button className="btn btn-secondary desktop-only">View all properties</button>
+          <div className="section-header justify-between items-center flex" style={{ flexWrap: 'wrap', gap: 'var(--space-4)' }}>
+            <h2 className="h2" style={{ margin: 0 }}>Residences worth a closer look.</h2>
+            <Link to="/search" className="btn btn-secondary desktop-only">View all properties</Link>
           </div>
           
           <div className="grid grid-cols-12 property-grid">
@@ -64,9 +117,9 @@ export default function Home() {
             ))}
           </div>
           
-          <button className="btn btn-secondary mobile-only w-full" style={{ marginTop: 'var(--space-6)' }}>
+          <Link to="/search" className="btn btn-secondary mobile-only w-full" style={{ marginTop: 'var(--space-6)', textAlign: 'center' }}>
             View all properties
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -79,7 +132,9 @@ export default function Home() {
           <div className="signature-content">
             <h2 className="h2">An apartment framed by Parisian rooftops.</h2>
             <p className="large">Set on an upper floor near the Seine, this three-bedroom apartment pairs a restrained contemporary renovation with the proportions of a classic Paris residence.</p>
-            <button className="btn btn-primary" style={{ marginTop: 'var(--space-4)' }}>Explore property</button>
+            <Link to="/property/paris-lux-1" className="btn btn-primary" style={{ marginTop: 'var(--space-4)', display: 'inline-flex' }}>
+              Explore property
+            </Link>
           </div>
         </div>
       </section>
@@ -106,3 +161,4 @@ export default function Home() {
     </div>
   );
 }
+

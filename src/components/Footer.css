@@ -54,6 +54,8 @@
   align-items: center;
   padding-top: var(--space-8);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+  gap: var(--space-4);
 }
 
 .language-selector {
@@ -71,3 +73,15 @@
 .language-selector span:first-child {
   color: var(--color-surface-white);
 }
+
+@media (max-width: 768px) {
+  .footer {
+    padding: clamp(36px, 6vw, 64px) 0 var(--space-6);
+  }
+  .footer-bottom {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+}
+

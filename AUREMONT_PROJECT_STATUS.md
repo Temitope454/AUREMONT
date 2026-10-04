@@ -1,5 +1,38 @@
 # AUREMONT — Permanent Project Status & Memory
 
+**PROJECT**: AUREMONT  
+**LOCAL**: `C:\Users\User\Documents\Projects\auremont`  
+**GITHUB**: [https://github.com/Temitope454/AUREMONT.git](https://github.com/Temitope454/AUREMONT.git)  
+**CURRENT DEVELOPMENT STAGE**: PHASE 4.5 — RESPONSIVE & VISUAL STABILIZATION  
+**NEXT MAJOR PHASE**: PHASE 5 — ADMIN & OPERATIONS  
+
+---
+
+### Core State Definitions
+* **BUILT**: Code exists.
+* **VERIFIED**: Actual behavior/rendering has been checked.
+* **MOCKED**: Interaction exists using frontend/local mock infrastructure.
+* **PLACEHOLDER**: Route/UI exists but functionality is not complete.
+* **PRODUCTION-READY**: Real infrastructure, security, and QA are complete.
+
+---
+
+### Master Roadmap
+* **PHASE 1 — Brand/Public Foundation**: Status: **BUILT**
+* **PHASE 2 — Property Marketplace**: Status: **BUILT**
+* **PHASE 3 — Consumer + Mobility**: Status: **BUILT / quality verification required**
+* **PHASE 4 — Agent/Landlord Provider Platform**: Status: **BUILT / quality verification required**
+* **PHASE 4.5 — Responsive & Visual Stabilization**: Status: **BUILT & STRUCTURALLY STABILIZED / Manual QA Pending**
+* **PHASE 5 — Admin & Operations**: Status: **NOT STARTED**
+* **PHASE 6 — AI Concierge + multilingual/product completion**: Status: **NOT STARTED**
+* **PHASE 7 — Production Backend & Database**: Status: **NOT STARTED**
+* **PHASE 8 — Payments, media, maps, messaging, email and external integrations**: Status: **NOT STARTED**
+* **PHASE 9 — Security, accessibility, performance and complete QA**: Status: **NOT STARTED**
+* **PHASE 10 — Deployment / Launch Readiness**: Status: **NOT STARTED**
+
+
+---
+
 ## A. What Auremont Is
 Auremont is a luxury real estate and mobility marketplace platform tailored for high-net-worth individuals, premier property agencies, and private landlords across international metropolitan hubs (Paris, London, Madrid, Lisbon, Milan, Dubai, New York, Singapore). The platform bridges architectural residential discovery, high-end automotive bookings, verified provider workspaces (for both Agents and Landlords), and consumer portfolio management under an editorial, timeless luxury aesthetic.
 
@@ -23,17 +56,6 @@ Auremont is a luxury real estate and mobility marketplace platform tailored for 
   - `react-router-dom`: `^7.18.4`
   - `lucide-react`: `^1.49.0`
   - Dev: `typescript`, `vite`, `oxlint`, `@types/react`, `@types/react-dom`, `@types/node`
-
----
-
-## C. Repository Information
-- **GitHub URL**: [https://github.com/Temitope454/AUREMONT.git](https://github.com/Temitope454/AUREMONT.git)
-- **Primary Branch**: `main`
-
----
-
-## D. Permanent Local Workspace
-- **Workspace Path**: `C:\Users\User\Documents\Projects\auremont`
 
 ---
 

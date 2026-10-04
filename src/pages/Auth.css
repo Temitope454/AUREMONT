@@ -90,3 +90,20 @@
     display: block;
   }
 }
+
+@media (max-width: 768px) {
+  .auth-page {
+    padding-top: 64px;
+  }
+  .auth-container {
+    padding: var(--space-6) var(--gutter-mobile);
+  }
+}
+
+@media (max-width: 480px) {
+  .form-row.grid-2 {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}
+

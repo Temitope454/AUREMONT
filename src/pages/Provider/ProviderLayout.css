@@ -153,11 +153,18 @@
   border-bottom-color: var(--color-primary-navy);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .provider-layout {
     flex-direction: column;
   }
+  .provider-sidebar {
+    display: none !important;
+  }
+  .provider-mobile-nav {
+    display: block !important;
+  }
   .provider-main {
-    padding: var(--space-4);
+    padding: var(--space-4) var(--gutter-mobile);
   }
 }
+

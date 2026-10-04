@@ -79,7 +79,7 @@ export default function AccountLayout() {
         </aside>
 
         {/* Mobile Horizontal Navigation (Purpose Built) */}
-        <nav className="mobile-account-nav mobile-only">
+        <nav className="mobile-account-nav mobile-only" aria-label="Account Subnavigation">
           <div className="mobile-nav-scroll">
             {navItems.map(item => (
               <NavLink 
@@ -91,6 +91,18 @@ export default function AccountLayout() {
                 {item.label}
               </NavLink>
             ))}
+            {settingsItems.map(item => (
+              <NavLink 
+                key={item.to} 
+                to={item.to}
+                className={({isActive}) => `mobile-nav-item ${isActive ? 'active' : ''}`}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+            <button className="mobile-nav-item text-error" onClick={handleLogout} style={{ border: 'none', background: 'transparent', cursor: 'pointer' }}>
+              Sign out
+            </button>
           </div>
         </nav>
 
@@ -102,3 +114,4 @@ export default function AccountLayout() {
     </div>
   );
 }
+

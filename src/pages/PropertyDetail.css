@@ -189,26 +189,28 @@
 
 .core-specs-strip {
   display: flex;
-  gap: var(--space-8);
-  padding: var(--space-6) 0;
+  flex-wrap: wrap;
+  gap: clamp(12px, 2.5vw, 28px);
+  padding: var(--space-5) 0;
   border-top: 1px solid var(--color-border-limestone);
   border-bottom: 1px solid var(--color-border-limestone);
-  margin-bottom: var(--space-12);
+  margin-bottom: var(--space-8);
 }
 
 .spec-item {
   display: flex;
   flex-direction: column;
+  min-width: 90px;
 }
 
 .spec-value {
-  font-size: 20px;
+  font-size: clamp(17px, 2vw, 20px);
   font-weight: 600;
   color: var(--color-text-ink);
 }
 
 .spec-label {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-text-slate);
 }
 
@@ -222,7 +224,7 @@
 
 .amenities-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
   gap: var(--space-4);
 }
 
@@ -230,7 +232,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .amenity-icon {
@@ -320,6 +322,8 @@
   border: 1px solid var(--color-border-limestone);
   border-radius: var(--radius-xl);
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
 }
 
 .panel-price {
@@ -362,7 +366,7 @@
   justify-content: space-between;
   align-items: center;
   z-index: 50;
-  padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
+  padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
 }
 
 .mobile-action-price {
@@ -450,8 +454,9 @@
   transform: translate(-50%, -50%);
   background: var(--color-surface-white);
   border-radius: var(--radius-xl);
-  width: 90%;
-  max-width: 480px;
+  width: min(480px, calc(100vw - 32px));
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
   z-index: 201;
   box-shadow: 0 20px 40px rgba(0,0,0,0.2);
   animation: dialogScale 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -498,7 +503,7 @@
   }
   .property-detail-container {
     padding-top: 64px;
-    padding-bottom: 100px; /* Space for bottom bar */
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
   }
   .provider-panel {
     flex-direction: column;

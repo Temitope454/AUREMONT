@@ -26,9 +26,9 @@ export default function Transactions() {
 
   return (
     <div className="account-panel">
-      <div className="panel-header" style={{padding: 'var(--space-6) var(--space-8)', borderBottom: '1px solid var(--color-border-limestone)'}}>
+      <div className="panel-header">
         <h1 className="h3">Transactions</h1>
-        <p className="text-meta" style={{marginTop: 'var(--space-2)'}}>Your recent booking and payment history.</p>
+        <p className="text-meta">Your recent booking and payment history.</p>
       </div>
 
       <div className="panel-body">
@@ -39,7 +39,7 @@ export default function Transactions() {
                 display: 'flex', 
                 justifyContent: 'space-between', 
                 alignItems: 'center',
-                padding: 'var(--space-6) var(--space-8)',
+                padding: 'var(--space-4) 0',
                 borderBottom: '1px solid var(--color-border-limestone)'
               }}>
                 <div>

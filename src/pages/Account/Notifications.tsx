@@ -33,7 +33,7 @@ export default function Notifications() {
       case 'viewing_update': return 'Viewing Update';
       case 'price_drop': return 'Price Adjustment';
       case 'concierge_recommendation': return 'Concierge Match';
-      case 'security_alert': return 'Security Dossier';
+      case 'security_alert': return 'Security Notice';
       default: return 'System Notice';
     }
   };
@@ -42,8 +42,8 @@ export default function Notifications() {
     <div className="account-panel">
       <div className="panel-header flex-between">
         <div>
-          <h1 className="h3">Private Notifications & Dispatches</h1>
-          <p className="text-meta">Real-time alerts regarding your appointments, asset price changes, and concierge recommendations.</p>
+          <h1 className="h3">Notifications</h1>
+          <p className="text-meta">Updates regarding your appointments, saved listings, and inquiries.</p>
         </div>
         <button 
           className="btn btn-secondary btn-sm"
@@ -93,7 +93,7 @@ export default function Notifications() {
           <div className="empty-state">
             <Bell size={40} className="empty-icon" />
             <h3 className="h4">No notifications in this folder</h3>
-            <p className="text-meta">All updates from your brokers and concierge will appear here.</p>
+            <p className="text-meta">All updates and alerts will appear here.</p>
           </div>
         ) : (
           <div className="notifications-list">
@@ -124,7 +124,7 @@ export default function Notifications() {
                         className="notif-action-link"
                         onClick={(e) => { e.stopPropagation(); markNotificationRead(item.id); }}
                       >
-                        Inspect Resource <ExternalLink size={12} />
+                        View Details <ExternalLink size={12} />
                       </Link>
                     </div>
                   )}

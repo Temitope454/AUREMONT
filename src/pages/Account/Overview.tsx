@@ -14,13 +14,13 @@ export default function Overview() {
   return (
     <div className="account-panel">
       <div className="panel-header">
-        <h1 className="h3">Good afternoon, {user?.firstName}.</h1>
-        <p className="text-meta">Here is your account overview.</p>
+        <h1 className="h3">Welcome back, {user?.firstName}.</h1>
+        <p className="text-meta">Here is your account overview and recent activity.</p>
       </div>
 
       <div className="panel-body">
         
-        <div className="overview-module-grid" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-6)', marginBottom: 'var(--space-8)'}}>
+        <div className="overview-module-grid" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-6)', marginBottom: 'var(--space-6)'}}>
           
           <div className="overview-module" style={{padding: 'var(--space-6)', background: 'var(--color-bg-sand)', borderRadius: 'var(--radius-lg)'}}>
             <h3 className="h4" style={{marginBottom: 'var(--space-4)'}}>Upcoming booking</h3>

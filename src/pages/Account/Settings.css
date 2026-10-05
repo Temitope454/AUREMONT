@@ -1,13 +1,15 @@
+/* SETTINGS STYLING */
+
 .settings-body-sections {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-8);
 }
 
 .settings-section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 
 .section-header-wrap {
@@ -16,7 +18,17 @@
   gap: var(--space-3);
 }
 
-.section-header-wrap h2 {
+.section-header-wrap h2,
+.section-header-wrap .h4 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-text-ink);
+  margin-bottom: 2px;
+}
+
+.section-header-wrap p {
+  font-size: 13.5px;
+  color: var(--color-text-slate);
   margin: 0;
 }
 
@@ -33,7 +45,7 @@
 
 /* Two-Factor Card */
 .two-factor-control-card {
-  padding: var(--space-4) var(--space-6);
+  padding: var(--space-5) var(--space-6);
   background: var(--color-bg-sand);
   border: 1px solid var(--color-border-limestone);
   border-radius: var(--radius-lg);
@@ -47,7 +59,8 @@
 .two-factor-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  max-width: 520px;
 }
 
 .two-factor-status-row {
@@ -57,35 +70,36 @@
 }
 
 .two-factor-label {
-  font-size: 0.88rem;
+  font-size: 14px;
   font-weight: 600;
   color: var(--color-text-ink);
 }
 
 .status-pill {
-  padding: 3px 8px;
+  padding: 3px 10px;
   border-radius: 999px;
-  font-size: 0.72rem;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
 
 .status-pill.enabled {
-  background: rgba(39, 174, 96, 0.15);
-  color: #27AE60;
-  border: 1px solid rgba(39, 174, 96, 0.3);
+  background: rgba(52, 112, 87, 0.12);
+  color: var(--color-success-forest);
+  border: 1px solid rgba(52, 112, 87, 0.25);
 }
 
 .status-pill.disabled {
-  background: rgba(124, 129, 123, 0.15);
+  background: rgba(125, 131, 133, 0.12);
   color: var(--color-text-slate);
   border: 1px solid var(--color-border-limestone);
 }
 
 .two-factor-desc {
   margin: 0;
-  font-size: 0.82rem;
+  font-size: 13.5px;
   color: var(--color-text-slate);
+  line-height: 1.5;
 }
 
 /* Password Form */
@@ -93,12 +107,57 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  max-width: 600px;
+  max-width: 540px;
 }
 
 .password-actions {
   display: flex;
   margin-top: var(--space-2);
+}
+
+/* Form Helpers */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--color-text-ink);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  height: 44px;
+  padding: 0 var(--space-3);
+  background: var(--color-surface-white);
+  border: 1px solid var(--color-border-limestone);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--color-text-ink);
+  transition: border-color var(--transition-micro);
+  width: 100%;
+}
+
+.form-group textarea {
+  height: auto;
+  padding: var(--space-3);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary-navy);
 }
 
 /* Sessions List */
@@ -113,35 +172,30 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--space-4);
-  background: var(--color-bg-ivory);
+  background: var(--color-bg-sand);
   border: 1px solid var(--color-border-limestone);
   border-radius: var(--radius-md);
-}
-
-.session-item.current {
-  border-color: var(--color-primary-navy);
-  background: var(--color-surface-white);
 }
 
 .session-meta {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
 .session-device {
-  font-size: 0.9rem;
+  font-size: 14px;
   font-weight: 600;
   color: var(--color-text-ink);
 }
 
 .session-location {
-  font-size: 0.78rem;
+  font-size: 13px;
   color: var(--color-text-slate);
 }
 
 .session-current-tag {
-  font-size: 0.72rem;
+  font-size: 12px;
   background: rgba(24, 36, 46, 0.08);
   color: var(--color-primary-navy);
   padding: 3px 8px;
@@ -149,101 +203,13 @@
   font-weight: 600;
 }
 
-.btn-revoke {
-  background: transparent;
-  border: 1px solid var(--color-border-limestone);
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 0.78rem;
-  color: #C0392B;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
+@media (max-width: 640px) {
+  .form-grid-2 {
+    grid-template-columns: 1fr;
+  }
 
-.btn-revoke:hover {
-  background: rgba(192, 57, 43, 0.08);
-  border-color: #C0392B;
-}
-
-/* QR Simulator */
-.qr-simulator-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 20px;
-  background: var(--color-bg-ivory);
-  border: 1px solid var(--color-border-limestone);
-  border-radius: var(--radius-md);
-  margin-bottom: var(--space-4);
-}
-
-.qr-mock-box {
-  width: 140px;
-  height: 140px;
-  background: #FFF;
-  border: 2px solid var(--color-text-ink);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.qr-cell {
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  border: 4px solid #18242E;
-  background: transparent;
-}
-
-.qr-cell::after {
-  content: '';
-  position: absolute;
-  inset: 5px;
-  background: #18242E;
-}
-
-.qr-cell.top-left { top: 8px; left: 8px; }
-.qr-cell.top-right { top: 8px; right: 8px; }
-.qr-cell.bottom-left { bottom: 8px; left: 8px; }
-
-.qr-inner-pattern {
-  width: 48px;
-  height: 48px;
-  background-image: radial-gradient(#18242E 35%, transparent 35%);
-  background-size: 8px 8px;
-}
-
-.qr-manual-key {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.key-label {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  color: var(--color-text-slate);
-}
-
-.key-code {
-  font-family: monospace;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--color-primary-navy);
-  letter-spacing: 0.06em;
-  background: var(--color-surface-white);
-  padding: 4px 8px;
-  border: 1px dashed var(--color-border-limestone);
-  border-radius: 4px;
-}
-
-.code-input {
-  letter-spacing: 0.3em;
-  font-size: 1.2rem;
-  text-align: center;
-  font-family: monospace;
-  font-weight: 600;
+  .two-factor-control-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

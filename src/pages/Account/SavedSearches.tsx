@@ -50,15 +50,15 @@ export default function SavedSearches() {
     <div className="account-panel">
       <div className="panel-header flex-between">
         <div>
-          <h1 className="h3">Saved Searches & Market Alerts</h1>
-          <p className="text-meta">Manage your tailored acquisition criteria and institutional push notifications.</p>
+          <h1 className="h3">Saved Searches</h1>
+          <p className="text-meta">Manage your saved searches and listing alert preferences.</p>
         </div>
         <button 
           className="btn btn-primary"
           onClick={() => setIsModalOpen(true)}
           style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
         >
-          <Plus size={16} /> New Alert Criteria
+          <Plus size={16} /> New Saved Search
         </button>
       </div>
 
@@ -74,7 +74,7 @@ export default function SavedSearches() {
           <div className="empty-state">
             <Search size={40} className="empty-icon" />
             <h3 className="h4">No saved criteria</h3>
-            <p className="text-meta">Save your search parameters from the marketplace to receive instant notifications when off-market residences match.</p>
+            <p className="text-meta">Save your search parameters from the marketplace to receive notifications when matching properties become available.</p>
           </div>
         ) : (
           <div className="saved-searches-list">

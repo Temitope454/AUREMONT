@@ -88,9 +88,9 @@ export interface ConsumerProfile {
   preferredCity: string;
   investmentHorizon: string;
   acquisitionBudget: string;
-  buyerType: 'Individual HNW' | 'Family Office' | 'SPV Corporate' | 'Trust Foundation';
-  membershipTier: 'Auremont Circle Member' | 'Private Client Sovereign' | 'Institutional Partner';
-  memberId: string;
+  buyerType: 'Residential Buyer' | 'Tenant' | 'Commercial' | string;
+  membershipTier?: string;
+  memberId?: string;
 }
 
 export interface ConsumerSecurity {
@@ -301,7 +301,7 @@ const defaultBookings: ConsumerBooking[] = [
     agentName: 'Claire Moreau (Barnes International)',
     agentPhone: '+33 1 42 68 55 00',
     status: 'Confirmed',
-    notes: 'Private access through inner courtyard. Concierge notified of VIP arrival.',
+    notes: 'Private access through inner courtyard. Concierge notified of scheduled arrival.',
     createdAt: '2026-10-02',
   },
   {
@@ -317,7 +317,7 @@ const defaultBookings: ConsumerBooking[] = [
     agentName: 'Auremont Fleet Logistics',
     agentPhone: '+33 1 70 80 90 00',
     status: 'Confirmed',
-    notes: 'Direct VIP terminal handover at Le Bourget Airport.',
+    notes: 'Direct terminal handover at Le Bourget Airport.',
     createdAt: '2026-10-03',
   },
   {
@@ -333,7 +333,7 @@ const defaultBookings: ConsumerBooking[] = [
     agentName: 'Matteo Rossi (Sotheby’s Milan)',
     agentPhone: '+39 02 876 5432',
     status: 'Pending Confirmation',
-    notes: '4K architectural walkthrough hosted via encrypted video room.',
+    notes: 'Architectural walkthrough hosted via video call.',
     createdAt: '2026-10-04',
   },
 ];
@@ -369,8 +369,8 @@ const defaultNotifications: ConsumerNotification[] = [
   {
     id: 'notif-4',
     category: 'security_alert',
-    title: 'Institutional Login Recognized',
-    message: 'New session authenticated from Geneva, Switzerland (IP: 194.230.145.xx).',
+    title: 'New Sign-in Detected',
+    message: 'A new session was detected from Paris, France (Browser: Chrome on MacOS).',
     timestamp: '3 days ago',
     read: true,
     link: '/account/settings',
@@ -378,25 +378,25 @@ const defaultNotifications: ConsumerNotification[] = [
 ];
 
 const defaultProfile: ConsumerProfile = {
-  firstName: 'Alexander',
-  lastName: 'von Bergmann',
-  email: 'alexander.vonbergmann@geneva-capital.ch',
-  phone: '+41 22 819 4000',
-  nationality: 'Swiss',
-  preferredCity: 'Paris & Geneva',
-  investmentHorizon: 'Capital Preservation & Prime Tenancies (5-10 Years)',
-  acquisitionBudget: '€5,000,000 – €15,000,000',
-  buyerType: 'Family Office',
-  membershipTier: 'Auremont Circle Member',
-  memberId: 'AC-88210',
+  firstName: 'Marcus',
+  lastName: 'Alvarez',
+  email: 'marcus.alvarez@example.com',
+  phone: '+33 1 42 68 55 00',
+  nationality: 'French',
+  preferredCity: 'Paris',
+  investmentHorizon: 'Seeking prime central residential apartment with terrace or garden.',
+  acquisitionBudget: '€2,000,000 – €5,000,000',
+  buyerType: 'Residential Buyer',
+  membershipTier: 'Client Account',
+  memberId: 'AU-20491',
 };
 
 const defaultSecurity: ConsumerSecurity = {
-  twoFactorEnabled: true,
+  twoFactorEnabled: false,
   twoFactorMethod: 'authenticator_app',
   emailAlertsOnLogin: true,
-  biometricActive: true,
-  activeSessionsCount: 2,
+  biometricActive: false,
+  activeSessionsCount: 1,
 };
 
 const ConsumerContext = createContext<ConsumerContextType | undefined>(undefined);

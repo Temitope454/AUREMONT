@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   Sparkles, X, Send, Mic, RefreshCw, Calendar, 
   ExternalLink, CheckCircle2, Shield,
@@ -250,24 +250,32 @@ export default function ConciergeDrawer() {
     { label: 'Dubai Waterfront', query: 'Show me waterfront properties in Dubai' },
   ];
 
+  const location = useLocation();
+  const isWorkspaceRoute = location.pathname.startsWith('/account') || 
+                           location.pathname.startsWith('/provider') || 
+                           location.pathname.startsWith('/admin') ||
+                           location.pathname.startsWith('/checkout');
+
   return (
     <>
-      {/* Floating Concierge Trigger Pill */}
-      <button 
-        className={`concierge-floating-trigger ${isOpen ? 'active' : ''}`}
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Open Auremont Concierge"
-        id="concierge-trigger-btn"
-      >
-        <div className="concierge-trigger-icon-wrap">
-          <Sparkles size={20} className="concierge-sparkle-icon" />
-          <span className="concierge-status-dot"></span>
-        </div>
-        <div className="concierge-trigger-text">
-          <span className="concierge-brand-title">Ask Auremont</span>
-          <span className="concierge-brand-sub">Auremont Concierge</span>
-        </div>
-      </button>
+      {/* Floating Concierge Trigger Pill (Suppressed in Account, Provider, and Admin Workspaces) */}
+      {!isWorkspaceRoute && (
+        <button 
+          className={`concierge-floating-trigger ${isOpen ? 'active' : ''}`}
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Open Auremont Concierge"
+          id="concierge-trigger-btn"
+        >
+          <div className="concierge-trigger-icon-wrap">
+            <Sparkles size={20} className="concierge-sparkle-icon" />
+            <span className="concierge-status-dot"></span>
+          </div>
+          <div className="concierge-trigger-text">
+            <span className="concierge-brand-title">Ask Auremont</span>
+            <span className="concierge-brand-sub">Auremont Concierge</span>
+          </div>
+        </button>
+      )}
 
       {/* Slide-out Concierge Drawer */}
       <div className={`concierge-drawer-overlay ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(false)}>

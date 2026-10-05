@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Crown, CheckCircle2 } from 'lucide-react';
+import { User, CheckCircle2 } from 'lucide-react';
 import { useConsumerState } from '../../context/ConsumerContext';
 import './Profile.css';
 
@@ -11,48 +11,45 @@ export default function Profile() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updateProfile(formData);
-    setToastMessage('VIP Client dossier updated successfully.');
-    setTimeout(() => setToastMessage(null), 3500);
+    setToastMessage('Profile details updated successfully.');
+    setTimeout(() => setToastMessage(null), 3000);
   };
 
   return (
     <div className="account-panel">
       <div className="panel-header">
-        <h1 className="h3">Client Profile & Investment Dossier</h1>
-        <p className="text-meta">Manage your accredited investor profile, wealth entity structures, and private concierge preferences.</p>
+        <h1 className="h3">Account Profile</h1>
+        <p className="text-meta">Manage your personal contact details and marketplace preferences.</p>
       </div>
 
       {toastMessage && (
-        <div className="alert alert-success" style={{ margin: 'var(--space-4) var(--space-6) 0' }}>
+        <div className="alert alert-success" style={{ margin: 'var(--space-4) 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <CheckCircle2 size={16} />
           <span>{toastMessage}</span>
         </div>
       )}
 
       <div className="panel-body">
-        {/* VIP Membership Card */}
-        <div className="vip-membership-banner">
-          <div className="vip-crest-wrap">
-            <Crown size={24} className="vip-crown-icon" />
+        {/* Profile Card Header */}
+        <div className="profile-identity-card">
+          <div className="profile-avatar-wrap">
+            <User size={24} />
           </div>
-          <div className="vip-meta">
-            <span className="vip-tier-tag">{profile.membershipTier}</span>
-            <h2 className="vip-client-name">{profile.firstName} {profile.lastName}</h2>
-            <span className="vip-member-id">Accreditation ID: {profile.memberId} · Geneva Clearing Approved</span>
-          </div>
-          <div className="vip-status-badge">
-            <span className="dot-active"></span> Verified HNW Investor
+          <div className="profile-identity-meta">
+            <h2 className="profile-user-name">{formData.firstName} {formData.lastName}</h2>
+            <span className="profile-user-email">{formData.email}</span>
           </div>
         </div>
 
-        {/* Profile Editor Form */}
+        {/* Profile Form */}
         <form onSubmit={handleSubmit} className="profile-form">
-          <h3 className="section-title">Identity & Private Communications</h3>
+          <h3 className="section-title">Contact Information</h3>
           
           <div className="form-grid-2">
             <div className="form-group">
-              <label>First Name</label>
+              <label htmlFor="profile-first-name">First Name</label>
               <input 
+                id="profile-first-name"
                 type="text" 
                 value={formData.firstName}
                 onChange={e => setFormData({ ...formData, firstName: e.target.value })}
@@ -60,8 +57,9 @@ export default function Profile() {
               />
             </div>
             <div className="form-group">
-              <label>Last Name</label>
+              <label htmlFor="profile-last-name">Last Name</label>
               <input 
+                id="profile-last-name"
                 type="text" 
                 value={formData.lastName}
                 onChange={e => setFormData({ ...formData, lastName: e.target.value })}
@@ -72,8 +70,9 @@ export default function Profile() {
 
           <div className="form-grid-2">
             <div className="form-group">
-              <label>Confidential Email</label>
+              <label htmlFor="profile-email">Email Address</label>
               <input 
+                id="profile-email"
                 type="email" 
                 value={formData.email}
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
@@ -81,86 +80,92 @@ export default function Profile() {
               />
             </div>
             <div className="form-group">
-              <label>Encrypted Mobile / WhatsApp</label>
+              <label htmlFor="profile-phone">Phone Number</label>
               <input 
+                id="profile-phone"
                 type="tel" 
                 value={formData.phone}
                 onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                required 
               />
-            </div>
-          </div>
-
-          <div className="form-grid-2">
-            <div className="form-group">
-              <label>Legal Nationality</label>
-              <input 
-                type="text" 
-                value={formData.nationality}
-                onChange={e => setFormData({ ...formData, nationality: e.target.value })}
-              />
-            </div>
-            <div className="form-group">
-              <label>Primary Residence Metropolis</label>
-              <select 
-                value={formData.preferredCity}
-                onChange={e => setFormData({ ...formData, preferredCity: e.target.value })}
-              >
-                <option value="Paris & Geneva">Paris & Geneva Corridor</option>
-                <option value="London Mayfair">London Mayfair / Prime Central</option>
-                <option value="Madrid Salamanca">Madrid Salamanca</option>
-                <option value="Milan Quadrilatero">Milan Quadrilatero</option>
-                <option value="Dubai Palm Jumeirah">Dubai Palm Jumeirah / DIFC</option>
-                <option value="Monaco Carré d'Or">Monaco Carré d'Or</option>
-                <option value="New York Manhattan">New York Manhattan</option>
-              </select>
             </div>
           </div>
 
           <div className="form-divider"></div>
 
-          <h3 className="section-title">Institutional Acquisition Profile</h3>
+          <h3 className="section-title">Discovery Preferences</h3>
 
           <div className="form-grid-2">
             <div className="form-group">
-              <label>Acquisition Entity Structure</label>
+              <label htmlFor="profile-nationality">Nationality / Country of Residence</label>
+              <input 
+                id="profile-nationality"
+                type="text" 
+                value={formData.nationality}
+                onChange={e => setFormData({ ...formData, nationality: e.target.value })}
+                placeholder="e.g. French, British, American"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="profile-city">Primary City of Interest</label>
               <select 
+                id="profile-city"
+                value={formData.preferredCity}
+                onChange={e => setFormData({ ...formData, preferredCity: e.target.value })}
+              >
+                <option value="Paris">Paris, France</option>
+                <option value="London">London, United Kingdom</option>
+                <option value="Madrid">Madrid, Spain</option>
+                <option value="Lisbon">Lisbon, Portugal</option>
+                <option value="Milan">Milan, Italy</option>
+                <option value="Dubai">Dubai, UAE</option>
+                <option value="New York">New York, USA</option>
+                <option value="Singapore">Singapore</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-grid-2">
+            <div className="form-group">
+              <label htmlFor="profile-buyer-type">Preferred Category</label>
+              <select 
+                id="profile-buyer-type"
                 value={formData.buyerType}
                 onChange={e => setFormData({ ...formData, buyerType: e.target.value as any })}
               >
-                <option value="Individual HNW">Individual High-Net-Worth</option>
-                <option value="Family Office">Single / Multi-Family Office</option>
-                <option value="SPV Corporate">Special Purpose Vehicle (SPV / SCI)</option>
-                <option value="Trust Foundation">Discretionary Trust / Private Foundation</option>
+                <option value="Residential Buyer">Residential Acquisition</option>
+                <option value="Tenant">Long-Term Tenancy / Rental</option>
+                <option value="Commercial">Commercial / Mixed-Use Lease</option>
               </select>
             </div>
             <div className="form-group">
-              <label>Target Capital Allocation (Acquisition Budget)</label>
+              <label htmlFor="profile-budget">Estimated Budget</label>
               <select 
+                id="profile-budget"
                 value={formData.acquisitionBudget}
                 onChange={e => setFormData({ ...formData, acquisitionBudget: e.target.value })}
               >
+                <option value="Up to €2,000,000">Up to €2,000,000</option>
                 <option value="€2,000,000 – €5,000,000">€2,000,000 – €5,000,000</option>
-                <option value="€5,000,000 – €15,000,000">€5,000,000 – €15,000,000</option>
-                <option value="€15,000,000 – €50,000,000">€15,000,000 – €50,000,000 (Trophy Assets)</option>
-                <option value="Sovereign > €50,000,000">Sovereign Tier &gt; €50,000,000</option>
+                <option value="€5,000,000 – €10,000,000">€5,000,000 – €10,000,000</option>
+                <option value="Over €10,000,000">Over €10,000,000</option>
               </select>
             </div>
           </div>
 
           <div className="form-group">
-            <label>Investment Horizon & Strategic Mandate</label>
+            <label htmlFor="profile-horizon">Property Requirements & Notes</label>
             <textarea 
+              id="profile-horizon"
               rows={3}
               value={formData.investmentHorizon}
               onChange={e => setFormData({ ...formData, investmentHorizon: e.target.value })}
-              placeholder="e.g. Capital preservation, prime residential tenancy yield (5-10 years), heritage generational transfer..."
+              placeholder="Specify preferred neighborhoods, architectural styles, minimum bedrooms, or requirements..."
             />
           </div>
 
           <div className="form-actions">
             <button type="submit" className="btn btn-primary">
-              Save Private Dossier
+              Save Profile
             </button>
           </div>
         </form>

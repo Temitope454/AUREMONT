@@ -10,8 +10,8 @@ export default function RecentlyViewed() {
     <div className="account-panel">
       <div className="panel-header flex-between">
         <div>
-          <h1 className="h3">Recently Viewed Residences & Mobility</h1>
-          <p className="text-meta">Audit trail of the architectural properties and luxury vehicles you have recently inspected.</p>
+          <h1 className="h3">Recently Viewed</h1>
+          <p className="text-meta">Properties and vehicles you have recently viewed across the marketplace.</p>
         </div>
         {recentlyViewed.length > 0 && (
           <button 
@@ -28,8 +28,8 @@ export default function RecentlyViewed() {
         {recentlyViewed.length === 0 ? (
           <div className="empty-state">
             <Clock size={40} className="empty-icon" />
-            <h3 className="h4">No inspection history</h3>
-            <p className="text-meta">Properties and vehicles you inspect across the marketplace will be logged here for convenient reference.</p>
+            <h3 className="h4">No recently viewed items</h3>
+            <p className="text-meta">Properties and vehicles you view across the marketplace will appear here for convenient reference.</p>
             <Link to="/search" className="btn btn-primary" style={{ marginTop: 'var(--space-4)' }}>
               Explore Marketplace
             </Link>
@@ -74,7 +74,7 @@ export default function RecentlyViewed() {
 
                     <div className="recent-card-actions">
                       <Link to={linkUrl} className="btn btn-secondary btn-sm" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-                        Inspect <ExternalLink size={12} />
+                        View <ExternalLink size={12} />
                       </Link>
                       <button 
                         className="recent-remove-btn"

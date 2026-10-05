@@ -1,36 +1,47 @@
+/* ACCOUNT LAYOUT ARCHITECTURE */
+
 .account-page {
-  padding-top: 80px;
+  padding-top: 80px; /* clears fixed navbar */
   min-height: 100vh;
   background: var(--color-bg-ivory);
 }
 
-.account-container {
-  display: flex;
+/* Genuine Two-Column Grid Desktop Shell */
+.account-shell {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--gutter-desktop) var(--space-16);
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
   gap: var(--space-8);
-  padding-top: var(--space-8);
-  padding-bottom: var(--space-16);
-  align-items: flex-start;
+  align-items: start;
 }
 
+/* Sidebar Track (Column 1) */
 .account-sidebar {
-  width: 280px;
-  flex-shrink: 0;
+  width: 240px;
   position: sticky;
-  top: 100px;
+  top: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
+/* User Identity Block */
 .account-user-card {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-  padding-bottom: var(--space-6);
-  margin-bottom: var(--space-4);
-  border-bottom: 1px solid var(--color-border-limestone);
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-surface-white);
+  border: 1px solid var(--color-border-limestone);
+  border-radius: var(--radius-lg);
 }
 
 .account-avatar {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: var(--color-primary-navy);
   color: var(--color-surface-white);
@@ -38,40 +49,71 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
-  font-size: 24px;
+  font-size: 18px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.account-user-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .account-name {
   font-weight: 600;
+  font-size: 14px;
   color: var(--color-text-ink);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .account-email {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-text-slate);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+/* Sidebar Navigation Groups */
 .account-nav {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  background: var(--color-surface-white);
+  border: 1px solid var(--color-border-limestone);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
 }
 
-.nav-group {
+.nav-section {
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+
+.nav-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-ash);
+  padding: 4px 10px 6px;
 }
 
 .account-nav-item {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: 8px 12px;
+  padding: 8px 10px;
   border-radius: var(--radius-md);
   color: var(--color-text-slate);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
   background: transparent;
   border: none;
@@ -79,10 +121,13 @@
   width: 100%;
   text-align: left;
   transition: background var(--transition-micro), color var(--transition-micro);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .account-nav-item:hover {
-  background: rgba(24, 36, 46, 0.03);
+  background: var(--color-bg-sand);
   color: var(--color-text-ink);
 }
 
@@ -92,90 +137,174 @@
   font-weight: 600;
 }
 
-.account-nav-item.text-error:hover {
-  background: rgba(169, 104, 79, 0.05);
+.account-nav-item.text-error {
   color: var(--color-accent-clay);
 }
 
-.nav-divider {
-  height: 1px;
-  background: var(--color-border-limestone);
-  margin: var(--space-2) 0;
+.account-nav-item.text-error:hover {
+  background: rgba(169, 104, 79, 0.08);
+  color: var(--color-error-brick);
 }
 
-.account-content {
-  flex: 1;
-  min-width: 0;
-  background: var(--color-surface-white);
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--color-border-limestone);
-  min-height: 500px;
+.nav-section-bottom {
+  border-top: 1px solid var(--color-border-limestone);
+  padding-top: var(--space-2);
+  margin-top: var(--space-1);
 }
 
-/* Mobile Nav */
-.mobile-account-nav {
-  width: 100%;
-  background: var(--color-surface-white);
-  border-bottom: 1px solid var(--color-border-limestone);
-  margin-bottom: var(--space-6);
-  position: sticky;
-  top: 64px;
-  z-index: 30;
-}
-
-.mobile-nav-scroll {
-  display: flex;
-  overflow-x: auto;
-  padding: 0 var(--space-4);
-  scrollbar-width: none;
-}
-
-.mobile-nav-scroll::-webkit-scrollbar {
+/* Mobile Subnav (Hidden on Desktop) */
+.mobile-account-subnav {
   display: none;
 }
 
-.mobile-nav-item {
-  padding: var(--space-3) var(--space-4);
-  white-space: nowrap;
-  color: var(--color-text-slate);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  border-bottom: 2px solid transparent;
+/* Main Content Area (Column 2) */
+.account-main {
+  min-width: 0;
+  width: 100%;
 }
 
-.mobile-nav-item.active {
+/* Universal Panel Styles for All Account Pages */
+.account-panel {
+  background: var(--color-surface-white);
+  border: 1px solid var(--color-border-limestone);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  max-width: 900px; /* sensible readable width */
+}
+
+.panel-header {
+  padding-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border-limestone);
+}
+
+.panel-header.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.panel-header h1,
+.panel-header .h3 {
+  font-size: 24px;
+  font-family: var(--font-display);
+  font-weight: 400;
   color: var(--color-text-ink);
-  border-bottom-color: var(--color-text-ink);
+  margin-bottom: var(--space-2);
+  line-height: 1.25;
 }
 
-@media (max-width: 1024px) {
-  .account-sidebar {
-    display: none !important;
-  }
-  .mobile-account-nav {
-    display: block !important;
-  }
-  .account-container {
+.panel-header p {
+  color: var(--color-text-slate);
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1023px) {
+  .account-shell {
+    display: flex;
     flex-direction: column;
-    padding-top: 0;
-    gap: 0;
+    padding: var(--space-4) var(--gutter-tablet) var(--space-12);
+    gap: var(--space-4);
   }
-  .account-content {
-    border: none;
-    background: transparent;
-    border-radius: 0;
-    padding: 0;
+
+  .account-sidebar {
+    display: none;
+  }
+
+  .mobile-account-subnav {
+    display: block;
+    width: 100%;
+    margin-bottom: var(--space-4);
+    position: sticky;
+    top: 72px;
+    z-index: 20;
+    background: var(--color-bg-ivory);
+    padding: var(--space-2) 0;
+  }
+
+  .mobile-subnav-scroll {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+  }
+
+  .mobile-subnav-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-subnav-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--color-surface-white);
+    border: 1px solid var(--color-border-limestone);
+    border-radius: var(--radius-md);
+    color: var(--color-text-slate);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all var(--transition-micro);
+  }
+
+  .mobile-subnav-pill.active {
+    background: var(--color-primary-navy);
+    color: var(--color-surface-white);
+    border-color: var(--color-primary-navy);
+    font-weight: 600;
+  }
+
+  .mobile-subnav-pill.text-error {
+    color: var(--color-accent-clay);
+  }
+
+  .account-panel {
+    padding: var(--space-6);
+    max-width: 100%;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .account-page {
     padding-top: 64px;
   }
-  .mobile-account-nav {
+
+  .account-shell {
+    padding: var(--space-3) var(--gutter-mobile) var(--space-10);
+  }
+
+  .mobile-account-subnav {
     top: 64px;
+  }
+
+  .account-panel {
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+  }
+
+  .panel-header {
+    padding-bottom: var(--space-4);
     margin-bottom: var(--space-4);
   }
-}
 
+  .panel-header h1,
+  .panel-header .h3 {
+    font-size: 20px;
+  }
+}

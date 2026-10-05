@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, User, Menu, X, LogOut, Settings, CreditCard, Heart, MessageSquare, Briefcase, PlusCircle, Shield, Sparkles, Globe } from 'lucide-react';
+import { Search, User, Menu, X, LogOut, Settings, Heart, MessageSquare, Briefcase, PlusCircle, Sparkles, Globe } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useI18n } from '../context/I18nContext';
 import type { Language } from '../context/I18nContext';
@@ -12,12 +12,35 @@ export default function Navigation() {
   const { t, language, setLanguage } = useI18n();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const accountRef = useRef<HTMLDivElement>(null);
   const isHome = location.pathname === '/';
 
-  // Automatically close mobile menu on route change
+  // Automatically close menus on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
+    setIsAccountOpen(false);
   }, [location.pathname]);
+
+  // Click outside and Escape key to close account dropdown
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (accountRef.current && !accountRef.current.contains(e.target as Node)) {
+        setIsAccountOpen(false);
+      }
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsAccountOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   // Lock body scroll and listen for Escape key when mobile menu is open
   useEffect(() => {
@@ -104,34 +127,58 @@ export default function Navigation() {
           </div>
           
           {isAuthenticated ? (
-            <div className="nav-account dropdown-trigger">
-              <Link to="/account" className="icon-btn nav-avatar-btn touch-target" aria-label="User Account">
+            <div className="nav-account dropdown-trigger" ref={accountRef}>
+              <button 
+                onClick={() => setIsAccountOpen(!isAccountOpen)}
+                className="icon-btn nav-avatar-btn touch-target" 
+                aria-label="User Account Menu"
+                aria-expanded={isAccountOpen}
+              >
                 {user?.avatar ? (
                   <img src={user.avatar} alt="Avatar" className="nav-avatar-img" />
                 ) : (
-                  <User size={20} strokeWidth={1.5} />
+                  <span className="nav-avatar-initial">{user?.firstName?.charAt(0) || 'U'}</span>
                 )}
-              </Link>
-              <div className="dropdown-menu">
-                <div className="dropdown-header">
-                  <span className="dropdown-name">{user?.firstName} {user?.lastName}</span>
-                  <span className="dropdown-email">{user?.email}</span>
+              </button>
+              {isAccountOpen && (
+                <div className="dropdown-menu" role="menu">
+                  <div className="dropdown-header">
+                    <span className="dropdown-name">{user?.firstName} {user?.lastName}</span>
+                    <span className="dropdown-email">{user?.email}</span>
+                  </div>
+                  <div className="dropdown-divider"></div>
+                  <Link to="/account" className="dropdown-item" onClick={() => setIsAccountOpen(false)} role="menuitem">
+                    <User size={16} /> <span>Account</span>
+                  </Link>
+                  <Link to="/account/favorites" className="dropdown-item" onClick={() => setIsAccountOpen(false)} role="menuitem">
+                    <Heart size={16} /> <span>Favorites</span>
+                  </Link>
+                  <Link to="/account/messages" className="dropdown-item" onClick={() => setIsAccountOpen(false)} role="menuitem">
+                    <MessageSquare size={16} /> <span>Messages</span>
+                  </Link>
+                  <Link to="/account/settings" className="dropdown-item" onClick={() => setIsAccountOpen(false)} role="menuitem">
+                    <Settings size={16} /> <span>Settings</span>
+                  </Link>
+                  <div className="dropdown-divider"></div>
+                  {user?.providerRole ? (
+                    <Link to="/provider" className="dropdown-item" onClick={() => setIsAccountOpen(false)} role="menuitem">
+                      <Briefcase size={16} /> <span>Provider Workspace</span>
+                    </Link>
+                  ) : (
+                    <Link to="/provider/properties/new" className="dropdown-item" onClick={() => setIsAccountOpen(false)} role="menuitem">
+                      <PlusCircle size={16} /> <span>List a property</span>
+                    </Link>
+                  )}
+                  <div className="dropdown-divider"></div>
+                  <button 
+                    onClick={() => { logout(); setIsAccountOpen(false); }} 
+                    className="dropdown-item text-error"
+                    role="menuitem"
+                  >
+                    <LogOut size={16} /> <span>Sign out</span>
+                  </button>
                 </div>
-                <div className="dropdown-divider"></div>
-                <Link to="/account" className="dropdown-item"><User size={16} /> {t.nav.consumerDashboard}</Link>
-                <Link to="/provider" className="dropdown-item" style={{ color: 'var(--color-primary-navy)', fontWeight: 600 }}>
-                  <Briefcase size={16} /> {t.nav.providerWorkspace}
-                </Link>
-                <Link to="/admin" className="dropdown-item" style={{ color: 'var(--color-gold)', fontWeight: 600 }}>
-                  <Shield size={16} /> {t.nav.operationsConsole}
-                </Link>
-                <Link to="/account/favorites" className="dropdown-item"><Heart size={16} /> {t.nav.favorites}</Link>
-                <Link to="/account/messages" className="dropdown-item"><MessageSquare size={16} /> {t.nav.messages}</Link>
-                <Link to="/account/transactions" className="dropdown-item"><CreditCard size={16} /> {t.nav.transactions}</Link>
-                <Link to="/account/settings" className="dropdown-item"><Settings size={16} /> {t.nav.settings}</Link>
-                <div className="dropdown-divider"></div>
-                <button onClick={logout} className="dropdown-item text-error"><LogOut size={16} /> {t.nav.signOut}</button>
-              </div>
+              )}
             </div>
           ) : (
             <Link to="/login" className="btn btn-secondary">{t.nav.signIn}</Link>
@@ -214,16 +261,15 @@ export default function Navigation() {
               <div className="mobile-drawer-divider"></div>
 
               <div className="mobile-drawer-section">
-                <span className="mobile-section-label">Providers & Governance</span>
+                <span className="mobile-section-label">Partners & Listing</span>
                 <Link to="/provider/properties/new" className="mobile-nav-link highlight">
                   <PlusCircle size={18} /> {t.nav.listProperty}
                 </Link>
-                <Link to="/provider" className="mobile-nav-link">
-                  <Briefcase size={18} /> {t.nav.providerWorkspace}
-                </Link>
-                <Link to="/admin" className="mobile-nav-link" style={{ color: 'var(--color-gold)', fontWeight: 600 }}>
-                  <Shield size={18} /> {t.nav.operationsConsole}
-                </Link>
+                {user?.providerRole && (
+                  <Link to="/provider" className="mobile-nav-link">
+                    <Briefcase size={18} /> {t.nav.providerWorkspace}
+                  </Link>
+                )}
               </div>
 
               <div className="mobile-drawer-divider"></div>
@@ -241,12 +287,11 @@ export default function Navigation() {
                         <span className="mobile-user-email">{user?.email}</span>
                       </div>
                     </div>
-                    <Link to="/account" className="mobile-nav-link"><User size={16} /> {t.nav.consumerDashboard}</Link>
-                    <Link to="/account/favorites" className="mobile-nav-link"><Heart size={16} /> {t.nav.favorites}</Link>
-                    <Link to="/account/messages" className="mobile-nav-link"><MessageSquare size={16} /> {t.nav.messages}</Link>
-                    <Link to="/account/transactions" className="mobile-nav-link"><CreditCard size={16} /> {t.nav.transactions}</Link>
-                    <Link to="/account/settings" className="mobile-nav-link"><Settings size={16} /> {t.nav.settings}</Link>
-                    <button onClick={logout} className="mobile-nav-link text-error">
+                    <Link to="/account" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}><User size={16} /> {t.nav.consumerDashboard}</Link>
+                    <Link to="/account/favorites" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}><Heart size={16} /> {t.nav.favorites}</Link>
+                    <Link to="/account/messages" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}><MessageSquare size={16} /> {t.nav.messages}</Link>
+                    <Link to="/account/settings" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}><Settings size={16} /> {t.nav.settings}</Link>
+                    <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="mobile-nav-link text-error">
                       <LogOut size={16} /> {t.nav.signOut}
                     </button>
                   </>

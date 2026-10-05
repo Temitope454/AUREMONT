@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Shield, Key, Smartphone, Globe, Lock, Download, Check } from 'lucide-react';
+import { Globe, Lock, Shield, Smartphone, Download, Check } from 'lucide-react';
 import { useConsumerState } from '../../context/ConsumerContext';
 import { useI18n } from '../../context/I18nContext';
 import type { Language } from '../../context/I18nContext';
@@ -10,8 +10,6 @@ export default function Settings() {
   const { language, setLanguage } = useI18n();
 
   const [currency, setCurrency] = useState('EUR');
-  const [is2FAModalOpen, setIs2FAModalOpen] = useState(false);
-  const [verificationCode, setVerificationCode] = useState('');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Password state
@@ -20,35 +18,16 @@ export default function Settings() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleToggle2FA = () => {
-    if (security.twoFactorEnabled) {
-      if (window.confirm('Are you certain you wish to disable institutional Two-Factor Authentication?')) {
-        updateSecurity({ twoFactorEnabled: false });
-        setToastMessage('Two-Factor Authentication disabled.');
-        setTimeout(() => setToastMessage(null), 3500);
-      }
-    } else {
-      setIs2FAModalOpen(true);
-    }
-  };
-
-  const handleConfirm2FA = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (verificationCode.length !== 6) {
-      alert('Please enter a valid 6-digit verification code.');
-      return;
-    }
-
-    updateSecurity({ twoFactorEnabled: true });
-    setIs2FAModalOpen(false);
-    setVerificationCode('');
-    setToastMessage('Two-Factor Authentication activated successfully.');
-    setTimeout(() => setToastMessage(null), 3500);
+    const nextState = !security.twoFactorEnabled;
+    updateSecurity({ twoFactorEnabled: nextState });
+    setToastMessage(nextState ? 'Demo two-step verification enabled.' : 'Two-step verification disabled.');
+    setTimeout(() => setToastMessage(null), 3000);
   };
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newPassword.length < 8) {
-      alert('Password must be at least 8 characters with numbers and symbols.');
+      alert('Password must be at least 8 characters.');
       return;
     }
     if (newPassword !== confirmPassword) {
@@ -59,40 +38,50 @@ export default function Settings() {
     setCurrentPassword('');
     setNewPassword('');
     setConfirmPassword('');
-    setToastMessage('Credentials updated. Active session tokens refreshed.');
-    setTimeout(() => setToastMessage(null), 3500);
+    setToastMessage('Password updated successfully.');
+    setTimeout(() => setToastMessage(null), 3000);
   };
 
   const handleExportData = () => {
     const exportData = {
-      client: profile,
-      securitySettings: security,
-      exportTimestamp: new Date().toISOString(),
-      complianceAuthority: 'Auremont Private Directorate — Geneva HQ',
+      profile: {
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        email: profile.email,
+        phone: profile.phone,
+        nationality: profile.nationality,
+        preferredCity: profile.preferredCity,
+      },
+      preferences: {
+        language,
+        currency,
+        twoFactorDemo: security.twoFactorEnabled,
+      },
+      exportedAt: new Date().toISOString(),
     };
 
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `auremont_client_dossier_${Date.now()}.json`);
+    link.setAttribute('download', `auremont_account_data_${Date.now()}.json`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 
-    setToastMessage('GDPR Dossier export downloaded.');
-    setTimeout(() => setToastMessage(null), 3500);
+    setToastMessage('Account data export downloaded.');
+    setTimeout(() => setToastMessage(null), 3000);
   };
 
   return (
     <div className="account-panel">
       <div className="panel-header">
-        <h1 className="h3">Security, Access & International Preferences</h1>
-        <p className="text-meta">Configure multi-factor authentication, active cryptographic sessions, and regional currency settings.</p>
+        <h1 className="h3">Account Settings</h1>
+        <p className="text-meta">Manage your interface preferences, password, and account security.</p>
       </div>
 
       {toastMessage && (
-        <div className="alert alert-success" style={{ margin: 'var(--space-4) var(--space-6) 0' }}>
+        <div className="alert alert-success" style={{ margin: 'var(--space-4) 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Check size={16} />
           <span>{toastMessage}</span>
         </div>
@@ -100,100 +89,67 @@ export default function Settings() {
 
       <div className="panel-body settings-body-sections">
         {/* Regional & Currency Preferences */}
-        <div className="settings-section">
+        <section className="settings-section">
           <div className="section-header-wrap">
-            <Globe size={20} className="section-icon" />
+            <Globe size={18} className="section-icon" />
             <div>
-              <h2 className="h4">Regional & Language Preferences</h2>
-              <p className="text-meta">Adjust global currency display and interface language tokens.</p>
+              <h2 className="h4">Preferences</h2>
+              <p className="text-meta">Configure your display language and preferred currency.</p>
             </div>
           </div>
 
           <div className="form-grid-2">
             <div className="form-group">
-              <label>Interface Language</label>
+              <label htmlFor="settings-language">Interface Language</label>
               <select 
+                id="settings-language"
                 value={language}
                 onChange={e => {
                   setLanguage(e.target.value as Language);
-                  setToastMessage(`Language switched to ${e.target.value.toUpperCase()}.`);
+                  setToastMessage(`Language updated to ${e.target.value.toUpperCase()}.`);
                   setTimeout(() => setToastMessage(null), 2500);
                 }}
               >
                 <option value="en">English (International)</option>
-                <option value="fr">Français (France / Suisse / Monaco)</option>
-                <option value="es">Español (España / América Latina)</option>
+                <option value="fr">Français</option>
+                <option value="es">Español</option>
               </select>
             </div>
 
             <div className="form-group">
-              <label>Default Currency Display</label>
+              <label htmlFor="settings-currency">Default Currency</label>
               <select 
+                id="settings-currency"
                 value={currency}
                 onChange={e => setCurrency(e.target.value)}
               >
-                <option value="EUR">EUR (€) — Eurozone Baseline</option>
+                <option value="EUR">EUR (€) — Euro</option>
                 <option value="GBP">GBP (£) — British Pound</option>
                 <option value="USD">USD ($) — US Dollar</option>
-                <option value="AED">AED (د.إ) — UAE Dirham</option>
+                <option value="AED">AED — UAE Dirham</option>
                 <option value="SGD">SGD (S$) — Singapore Dollar</option>
               </select>
             </div>
           </div>
-        </div>
+        </section>
 
         <div className="settings-divider"></div>
 
-        {/* Two-Factor Authentication */}
-        <div className="settings-section">
+        {/* Password Form */}
+        <section className="settings-section">
           <div className="section-header-wrap">
-            <Shield size={20} className="section-icon" />
+            <Lock size={18} className="section-icon" />
             <div>
-              <h2 className="h4">Two-Factor Authentication (2FA)</h2>
-              <p className="text-meta">Require biometric or cryptographic hardware token clearance on every session initialization.</p>
-            </div>
-          </div>
-
-          <div className="two-factor-control-card">
-            <div className="two-factor-info">
-              <div className="two-factor-status-row">
-                <span className="two-factor-label">Current Protection:</span>
-                <span className={`status-pill ${security.twoFactorEnabled ? 'enabled' : 'disabled'}`}>
-                  {security.twoFactorEnabled ? 'Institutional 2FA Active' : 'Unprotected'}
-                </span>
-              </div>
-              <p className="two-factor-desc">
-                {security.twoFactorEnabled 
-                  ? 'Your account is secured via Time-based One-Time Password (TOTP) clearance.'
-                  : 'We strongly advise activating 2FA to protect high-value acquisition dossiers.'}
-              </p>
-            </div>
-
-            <button 
-              className={`btn ${security.twoFactorEnabled ? 'btn-secondary' : 'btn-primary'}`}
-              onClick={handleToggle2FA}
-            >
-              {security.twoFactorEnabled ? 'Disable 2FA' : 'Activate 2FA'}
-            </button>
-          </div>
-        </div>
-
-        <div className="settings-divider"></div>
-
-        {/* Change Password Form */}
-        <div className="settings-section">
-          <div className="section-header-wrap">
-            <Lock size={20} className="section-icon" />
-            <div>
-              <h2 className="h4">Update Password</h2>
-              <p className="text-meta">Ensure your private credentials meet institutional cryptographic complexity standards.</p>
+              <h2 className="h4">Password</h2>
+              <p className="text-meta">Update the password used to access your Auremont account.</p>
             </div>
           </div>
 
           <form onSubmit={handlePasswordSubmit} className="password-form">
             <div className="form-group">
-              <label>Current Password</label>
+              <label htmlFor="current-password">Current Password</label>
               <input 
+                id="current-password"
                 type="password" 
                 value={currentPassword}
                 onChange={e => setCurrentPassword(e.target.value)}
@@ -204,18 +160,20 @@ export default function Settings() {
 
             <div className="form-grid-2">
               <div className="form-group">
-                <label>New Password</label>
+                <label htmlFor="new-password">New Password</label>
                 <input 
+                  id="new-password"
                   type="password" 
                   value={newPassword}
                   onChange={e => setNewPassword(e.target.value)}
-                  placeholder="Min. 8 characters"
+                  placeholder="Minimum 8 characters"
                   required 
                 />
               </div>
               <div className="form-group">
-                <label>Confirm New Password</label>
+                <label htmlFor="confirm-password">Confirm New Password</label>
                 <input 
+                  id="confirm-password"
                   type="password" 
                   value={confirmPassword}
                   onChange={e => setConfirmPassword(e.target.value)}
@@ -231,124 +189,90 @@ export default function Settings() {
               </button>
             </div>
           </form>
-        </div>
+        </section>
 
         <div className="settings-divider"></div>
 
-        {/* Active Sessions */}
-        <div className="settings-section">
+        {/* Two-Step Verification */}
+        <section className="settings-section">
           <div className="section-header-wrap">
-            <Smartphone size={20} className="section-icon" />
+            <Shield size={18} className="section-icon" />
             <div>
-              <h2 className="h4">Active Cryptographic Sessions</h2>
-              <p className="text-meta">Audit authorized devices and revoke stale session tokens.</p>
+              <h2 className="h4">Two-Step Verification</h2>
+              <p className="text-meta">Add an extra verification step when signing in to your account.</p>
+            </div>
+          </div>
+
+          <div className="two-factor-control-card">
+            <div className="two-factor-info">
+              <div className="two-factor-status-row">
+                <span className="two-factor-label">Verification Status:</span>
+                <span className={`status-pill ${security.twoFactorEnabled ? 'enabled' : 'disabled'}`}>
+                  {security.twoFactorEnabled ? 'Active (Demo)' : 'Off'}
+                </span>
+              </div>
+              <p className="two-factor-desc">
+                Production verification will connect to SMS or authenticator apps once backend services are enabled.
+              </p>
+            </div>
+
+            <button 
+              type="button"
+              className={`btn ${security.twoFactorEnabled ? 'btn-secondary' : 'btn-primary'}`}
+              onClick={handleToggle2FA}
+            >
+              {security.twoFactorEnabled ? 'Disable Verification' : 'Enable Verification'}
+            </button>
+          </div>
+        </section>
+
+        <div className="settings-divider"></div>
+
+        {/* Sessions & Data */}
+        <section className="settings-section">
+          <div className="section-header-wrap">
+            <Smartphone size={18} className="section-icon" />
+            <div>
+              <h2 className="h4">Active Session</h2>
+              <p className="text-meta">Current session stored in your browser.</p>
             </div>
           </div>
 
           <div className="sessions-list">
             <div className="session-item current">
               <div className="session-meta">
-                <span className="session-device">MacBook Pro 16″ (macOS Sonoma) — Current Session</span>
-                <span className="session-location">Geneva, Switzerland · IP 194.230.145.xx · Chrome 130</span>
+                <span className="session-device">Current Browser Session</span>
+                <span className="session-location">Local browser session · Active now</span>
               </div>
-              <span className="session-current-tag">This Device</span>
-            </div>
-
-            <div className="session-item">
-              <div className="session-meta">
-                <span className="session-device">iPhone 16 Pro (iOS 18)</span>
-                <span className="session-location">Paris, France · IP 82.64.120.xx · Mobile Safari</span>
-              </div>
-              <button 
-                className="btn-revoke"
-                onClick={() => {
-                  setToastMessage('Session revoked.');
-                  setTimeout(() => setToastMessage(null), 3000);
-                }}
-              >
-                Revoke Access
-              </button>
+              <span className="session-current-tag">Active</span>
             </div>
           </div>
-        </div>
+        </section>
 
         <div className="settings-divider"></div>
 
-        {/* Data & Compliance */}
-        <div className="settings-section">
+        {/* Data Export */}
+        <section className="settings-section">
           <div className="section-header-wrap">
-            <Download size={20} className="section-icon" />
+            <Download size={18} className="section-icon" />
             <div>
-              <h2 className="h4">GDPR Dossier & Privacy Compliance</h2>
-              <p className="text-meta">Download an encrypted export of your personal information, viewing records, and saved searches.</p>
+              <h2 className="h4">Account Data</h2>
+              <p className="text-meta">Download a copy of your profile information and saved preferences.</p>
             </div>
           </div>
 
-          <button 
-            className="btn btn-secondary"
-            onClick={handleExportData}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
-          >
-            <Download size={16} /> Export Personal Data (JSON)
-          </button>
-        </div>
+          <div>
+            <button 
+              type="button"
+              className="btn btn-secondary"
+              onClick={handleExportData}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+            >
+              <Download size={16} /> Download Account Data (JSON)
+            </button>
+          </div>
+        </section>
       </div>
-
-      {/* 2FA Modal */}
-      {is2FAModalOpen && (
-        <div className="modal-backdrop" onClick={() => setIs2FAModalOpen(false)}>
-          <div className="modal-dialog" onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3 className="h4" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Key size={20} /> Configure Two-Factor Authentication
-              </h3>
-              <button className="icon-btn" onClick={() => setIs2FAModalOpen(false)}>✕</button>
-            </div>
-            
-            <form onSubmit={handleConfirm2FA} className="modal-form">
-              <p className="text-meta">
-                Scan this QR code with an institutional authenticator application (Google Authenticator, 1Password, or YubiKey Authenticator).
-              </p>
-
-              {/* QR Simulator */}
-              <div className="qr-simulator-wrap">
-                <div className="qr-mock-box">
-                  <div className="qr-cell top-left"></div>
-                  <div className="qr-cell top-right"></div>
-                  <div className="qr-cell bottom-left"></div>
-                  <div className="qr-inner-pattern"></div>
-                </div>
-                <div className="qr-manual-key">
-                  <span className="key-label">Manual Setup Key:</span>
-                  <code className="key-code">AURM-9948-2831-SEC-KYC</code>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Enter 6-Digit Code from Authenticator</label>
-                <input 
-                  type="text" 
-                  maxLength={6}
-                  placeholder="000 000"
-                  value={verificationCode}
-                  onChange={e => setVerificationCode(e.target.value.replace(/\D/g, ''))}
-                  className="code-input"
-                  required 
-                />
-              </div>
-
-              <div className="modal-actions">
-                <button type="button" className="btn btn-secondary" onClick={() => setIs2FAModalOpen(false)}>
-                  Cancel
-                </button>
-                <button type="submit" className="btn btn-primary" disabled={verificationCode.length !== 6}>
-                  Verify & Activate
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

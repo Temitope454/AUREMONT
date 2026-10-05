@@ -37,8 +37,8 @@ export default function Favorites() {
 
   return (
     <div className="account-panel">
-      <div className="panel-header" style={{padding: 'var(--space-6) var(--space-8)', borderBottom: '1px solid var(--color-border-limestone)'}}>
-        <h1 className="h3" style={{marginBottom: 'var(--space-4)'}}>Favorites</h1>
+      <div className="panel-header">
+        <h1 className="h3" style={{marginBottom: 'var(--space-3)'}}>Favorites</h1>
         <div className="segmented-control" style={{width: 'max-content'}}>
           <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>All ({favorites.length})</button>
           <button className={filter === 'properties' ? 'active' : ''} onClick={() => setFilter('properties')}>Properties ({favProperties.length})</button>
@@ -46,7 +46,7 @@ export default function Favorites() {
         </div>
       </div>
 
-      <div className="panel-body" style={{padding: 'var(--space-6) var(--space-8)'}}>
+      <div className="panel-body">
         {itemsToRender.length > 0 ? (
           <div className="favorites-list">
              {itemsToRender}

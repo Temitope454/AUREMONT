@@ -135,7 +135,7 @@ export default function Messages() {
                     className="btn btn-primary btn-sm"
                     style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
                   >
-                    Dossier <ExternalLink size={13} />
+                    View Listing <ExternalLink size={13} />
                   </Link>
                 </div>
               )}

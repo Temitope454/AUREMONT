@@ -69,8 +69,8 @@ END:VCALENDAR`;
     <div className="account-panel">
       <div className="panel-header flex-between">
         <div>
-          <h1 className="h3">Bookings & Private Viewings</h1>
-          <p className="text-meta">Manage scheduled architectural tours, accompanied viewings, and mobility deliveries.</p>
+          <h1 className="h3">Viewings & Reservations</h1>
+          <p className="text-meta">Manage scheduled property viewings and vehicle reservations.</p>
         </div>
         <Link to="/search" className="btn btn-secondary btn-sm">
           Browse Residences

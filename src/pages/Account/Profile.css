@@ -1,90 +1,60 @@
-.vip-membership-banner {
-  background: linear-gradient(135deg, #18242E 0%, #223240 100%);
-  border: 1px solid rgba(197, 168, 128, 0.4);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
+/* PROFILE STYLING */
+
+.profile-identity-card {
   display: flex;
   align-items: center;
-  gap: var(--space-6);
-  color: #F6F3EC;
-  margin-bottom: var(--space-8);
-  box-shadow: 0 8px 24px rgba(24, 36, 46, 0.15);
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  background: var(--color-bg-sand);
+  border: 1px solid var(--color-border-limestone);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-6);
 }
 
-.vip-crest-wrap {
-  width: 56px;
-  height: 56px;
+.profile-avatar-wrap {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: rgba(197, 168, 128, 0.15);
-  border: 1px solid rgba(197, 168, 128, 0.4);
+  background: var(--color-primary-navy);
+  color: var(--color-surface-white);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #C5A880;
   flex-shrink: 0;
 }
 
-.vip-meta {
-  flex: 1;
+.profile-identity-meta {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.vip-tier-tag {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #C5A880;
+.profile-user-name {
+  font-size: 18px;
   font-weight: 600;
-}
-
-.vip-client-name {
+  color: var(--color-text-ink);
   margin: 0;
-  font-family: var(--font-display, 'Instrument Serif', Georgia, serif);
-  font-size: 1.6rem;
-  font-weight: 500;
-  color: #F6F3EC;
+  line-height: 1.3;
 }
 
-.vip-member-id {
-  font-size: 0.78rem;
-  color: #A0A5A0;
-}
-
-.vip-status-badge {
-  background: rgba(46, 204, 113, 0.15);
-  border: 1px solid #2ECC71;
-  color: #2ECC71;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-}
-
-.dot-active {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #2ECC71;
-  box-shadow: 0 0 6px #2ECC71;
+.profile-user-email {
+  font-size: 13.5px;
+  color: var(--color-text-slate);
+  margin: 0;
 }
 
 .profile-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-5);
+  max-width: 680px;
 }
 
 .section-title {
-  margin: var(--space-2) 0 var(--space-2);
-  font-size: 1.05rem;
+  font-size: 15px;
   font-weight: 600;
   color: var(--color-text-ink);
+  margin: var(--space-2) 0 var(--space-1);
 }
 
 .form-divider {
@@ -95,15 +65,12 @@
 
 .form-actions {
   display: flex;
-  justify-content: flex-end;
-  margin-top: var(--space-4);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--color-border-limestone);
+  justify-content: flex-start;
+  margin-top: var(--space-2);
 }
 
-@media (max-width: 768px) {
-  .vip-membership-banner {
-    flex-direction: column;
-    align-items: flex-start;
+@media (max-width: 640px) {
+  .profile-identity-card {
+    padding: var(--space-4);
   }
 }
